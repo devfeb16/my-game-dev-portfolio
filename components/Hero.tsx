@@ -32,7 +32,6 @@ export default function Hero({ className, headline, subtitle }: HeroProps) {
         </div>
 
         <div className="md:col-span-5 lg:col-span-4 md:pl-4 lg:pl-8">
-          <HeroCubes />
           <div className="mt-6 md:hidden">
             <HeroStats />
           </div>
