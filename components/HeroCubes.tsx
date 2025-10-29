@@ -23,10 +23,10 @@ export default function HeroCubes({ className, cubes = defaultCubes, variant = "
           key={c.label}
           href={c.href}
           aria-label={c.label}
-          className={`group relative overflow-hidden rounded-lg border backdrop-blur-sm p-4 perspective transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(0,216,255,0.4)] ${
+          className={`group relative overflow-hidden rounded-lg border p-4 perspective transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(0,216,255,0.4)] ${
             variant === "bright"
-              ? "border-[var(--color-border)]/50 bg-[#0c1117]/70 hover:border-[rgba(0,216,255,0.7)]"
-              : "border-[var(--color-border)]/40 bg-[#0c1117]/80 hover:border-[rgba(0,216,255,0.6)]"
+              ? "border-[var(--color-border)]/50 bg-transparent hover:border-[rgba(0,216,255,0.7)]"
+              : "border-[var(--color-border)]/40 bg-transparent hover:border-[rgba(0,216,255,0.6)]"
           }`}
           onMouseMove={(e) => {
             const target = e.currentTarget as HTMLAnchorElement;
