@@ -8,4 +8,9 @@ declare module 'vanta/dist/vanta.net.min' {
   export default VANTA;
 }
 
+declare module 'vanta/dist/vanta.halo.min' {
+  const VANTA: any;
+  export default VANTA;
+}
+
 

@@ -23,7 +23,7 @@ export default function HeroCubes({ className, cubes = defaultCubes }: HeroCubes
           key={c.label}
           href={c.href}
           aria-label={c.label}
-          className="group relative overflow-hidden rounded-lg border border-[var(--color-border)]/40 bg-[#0c1117] p-4 perspective hover:border-[rgba(0,216,255,0.4)]"
+          className="group relative overflow-hidden rounded-lg border border-[var(--color-border)]/40 bg-[#0c1117]/80 backdrop-blur-sm p-4 perspective hover:border-[rgba(0,216,255,0.6)] hover:scale-105 hover:shadow-[0_0_30px_rgba(0,216,255,0.4)] transition-all duration-300"
           onMouseMove={(e) => {
             const target = e.currentTarget as HTMLAnchorElement;
             const rect = target.getBoundingClientRect();
@@ -31,17 +31,17 @@ export default function HeroCubes({ className, cubes = defaultCubes }: HeroCubes
             const y = e.clientY - rect.top;
             const rx = (y / rect.height - 0.5) * -8;
             const ry = (x / rect.width - 0.5) * 8;
-            target.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`;
+            target.style.transform = `perspective(1000px) rotateX(${rx}deg) rotateY(${ry}deg) scale(1.05)`;
           }}
           onMouseLeave={(e) => {
-            (e.currentTarget as HTMLAnchorElement).style.transform = "rotateX(0) rotateY(0)";
+            (e.currentTarget as HTMLAnchorElement).style.transform = "perspective(1000px) rotateX(0) rotateY(0) scale(1)";
           }}
-          style={{ transition: "transform 150ms ease" }}
+          style={{ transition: "transform 200ms ease, border-color 200ms ease, box-shadow 200ms ease" }}
         >
           <div
-            className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity"
+            className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
             style={{
-              background: `radial-gradient(600px circle at var(--mx,50%) var(--my,50%), ${c.color}22, transparent 40%)`,
+              background: `radial-gradient(600px circle at var(--mx,50%) var(--my,50%), ${c.color}33, transparent 50%)`,
             }}
             onMouseMove={(e) => {
               const rect = (e.currentTarget as HTMLDivElement).getBoundingClientRect();
@@ -51,7 +51,19 @@ export default function HeroCubes({ className, cubes = defaultCubes }: HeroCubes
               (e.currentTarget as HTMLDivElement).style.setProperty("--my", `${my}%`);
             }}
           />
-          <div className="relative z-10 text-zinc-200 font-medium">{c.label}</div>
+          <div
+            className="absolute inset-0 opacity-0 group-hover:opacity-100 animate-pulse"
+            style={{
+              background: `linear-gradient(45deg, ${c.color}08, ${c.color}15)`,
+            }}
+          />
+          <div className="relative z-10 text-zinc-200 font-medium group-hover:text-white transition-colors">
+            {c.label}
+          </div>
+          <div
+            className="absolute -inset-1 opacity-0 group-hover:opacity-50 blur-xl transition-opacity"
+            style={{ backgroundColor: c.color }}
+          />
         </a>
       ))}
     </div>
