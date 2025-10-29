@@ -4,6 +4,7 @@ import HeroIntro from "./HeroIntro";
 import HeroCubes from "./HeroCubes";
 import HeroStats from "./HeroStats";
 import FloatingCodeSnippets from "./FloatingCodeSnippets";
+import PlaceholderSection from "./PlaceholderSection";
 
 type HeroProps = {
   className?: string;
@@ -21,9 +22,8 @@ export default function Hero({ className, headline, subtitle }: HeroProps) {
 
       <div className="absolute inset-0 z-[1] bg-gradient-to-r from-[#0b0f12] via-[#0b0f12]/85 to-transparent pointer-events-none"></div>
 
-      <div className="relative z-10 mx-auto grid max-w-7xl grid-cols-1 items-start gap-10 px-6 pt-28 pb-16 md:grid-cols-12">
-        <div className="md:col-span-2"></div>
-        <div className="md:col-span-6">
+      <div className="relative z-10 mx-0 grid max-w-none lg:max-w-none grid-cols-1 items-start gap-10 px-2 md:px-4 lg:px-6 pt-16 md:pt-20 lg:pt-24 pb-12 md:grid-cols-12">
+        <div className="md:col-span-7 lg:col-span-6">
           <HeroIntro headline={headline} subtitle={subtitle} />
           <FloatingCodeSnippets />
           <div className="mt-8 hidden md:block">
@@ -31,12 +31,15 @@ export default function Hero({ className, headline, subtitle }: HeroProps) {
           </div>
         </div>
 
-        <div className="md:col-span-4 md:pl-8">
+        <div className="md:col-span-5 lg:col-span-4 md:pl-4 lg:pl-8">
           <HeroCubes />
           <div className="mt-6 md:hidden">
             <HeroStats />
           </div>
         </div>
+      </div>
+      <div className="mt-6">
+        <PlaceholderSection />
       </div>
     </section>
   );

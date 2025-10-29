@@ -4,21 +4,17 @@ import { useEffect, useRef, useState } from "react";
 type HeroBackgroundProps = {
   className?: string;
   backgroundColor?: number;
-  baseColor?: number;
+  color?: number;
+  color2?: number;
   size?: number;
-  amplitudeFactor?: number;
-  xOffset?: number;
-  yOffset?: number;
 };
 
 export default function HeroBackground({
   className,
-  backgroundColor = 0x131a43,
-  baseColor = 0x001a59,
+  backgroundColor = 0x0b0f12,
+  color = 0xff3f81,
+  color2 = 0xffffff,
   size = 1,
-  amplitudeFactor = 1,
-  xOffset = 0,
-  yOffset = 0,
 }: HeroBackgroundProps) {
   const ref = useRef<HTMLDivElement | null>(null);
   const effectRef = useRef<any>(null);
@@ -40,7 +36,7 @@ export default function HeroBackground({
     let cleanup: (() => void) | undefined;
     (async () => {
       const THREE = await import("three");
-      const VANTA = (await import("vanta/dist/vanta.halo.min")) as any;
+      const VANTA = (await import("vanta/dist/vanta.globe.min")) as any;
       effectRef.current = VANTA.default?.({
         el: ref.current,
         THREE: (THREE as any).default ?? THREE,
@@ -50,11 +46,9 @@ export default function HeroBackground({
         minHeight: 200.0,
         minWidth: 200.0,
         backgroundColor,
-        baseColor,
+        color,
+        color2,
         size,
-        amplitudeFactor,
-        xOffset,
-        yOffset,
       });
       cleanup = () => {
         try {
@@ -63,7 +57,7 @@ export default function HeroBackground({
       };
     })();
     return () => cleanup?.();
-  }, [backgroundColor, baseColor, size, amplitudeFactor, xOffset, yOffset, reduced]);
+  }, [backgroundColor, color, color2, size, reduced]);
 
   return (
     <div ref={ref} className={`absolute inset-0 -z-0 overflow-hidden ${className || ""}`} aria-hidden="true">

@@ -2,7 +2,7 @@
 import { useRef } from "react";
 
 type Cube = { label: string; href: string; color: string };
-type HeroCubesProps = { className?: string; cubes?: Cube[] };
+type HeroCubesProps = { className?: string; cubes?: Cube[]; variant?: "default" | "bright" };
 
 const defaultCubes: Cube[] = [
   { label: "Unity", href: "/projects", color: "#00d8ff" },
@@ -13,7 +13,7 @@ const defaultCubes: Cube[] = [
   { label: "Next.js", href: "/projects", color: "#88ff00" },
 ];
 
-export default function HeroCubes({ className, cubes = defaultCubes }: HeroCubesProps) {
+export default function HeroCubes({ className, cubes = defaultCubes, variant = "default" }: HeroCubesProps) {
   const container = useRef<HTMLDivElement | null>(null);
 
   return (
@@ -23,7 +23,11 @@ export default function HeroCubes({ className, cubes = defaultCubes }: HeroCubes
           key={c.label}
           href={c.href}
           aria-label={c.label}
-          className="group relative overflow-hidden rounded-lg border border-[var(--color-border)]/40 bg-[#0c1117]/80 backdrop-blur-sm p-4 perspective hover:border-[rgba(0,216,255,0.6)] hover:scale-105 hover:shadow-[0_0_30px_rgba(0,216,255,0.4)] transition-all duration-300"
+          className={`group relative overflow-hidden rounded-lg border backdrop-blur-sm p-4 perspective transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(0,216,255,0.4)] ${
+            variant === "bright"
+              ? "border-[var(--color-border)]/50 bg-[#0c1117]/70 hover:border-[rgba(0,216,255,0.7)]"
+              : "border-[var(--color-border)]/40 bg-[#0c1117]/80 hover:border-[rgba(0,216,255,0.6)]"
+          }`}
           onMouseMove={(e) => {
             const target = e.currentTarget as HTMLAnchorElement;
             const rect = target.getBoundingClientRect();
@@ -57,7 +61,9 @@ export default function HeroCubes({ className, cubes = defaultCubes }: HeroCubes
               background: `linear-gradient(45deg, ${c.color}08, ${c.color}15)`,
             }}
           />
-          <div className="relative z-10 text-zinc-200 font-medium group-hover:text-white transition-colors">
+          <div className={`relative z-10 font-medium transition-colors ${
+            variant === "bright" ? "text-zinc-100" : "text-zinc-200 group-hover:text-white"
+          }`}>
             {c.label}
           </div>
           <div
