@@ -9,7 +9,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: "\ud83d\ude80 Deploy to Droplet via SSH"
+      - name: Deploy to Droplet via SSH
         uses: appleboy/ssh-action@v0.1.8
         with:
           host: ${{ secrets.DROPLET_HOST }}
