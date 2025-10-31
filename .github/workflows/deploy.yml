@@ -23,7 +23,18 @@ jobs:
           script_stop: true
           script: |
             set -euo pipefail
-            chmod +x /root/my-game-dev-portfolio/scripts/sample-deploy.sh || true
-            bash /root/my-game-dev-portfolio/scripts/sample-deploy.sh
+            REPO="/root/my-game-dev-portfolio"
+            if [ ! -d "$REPO/.git" ]; then
+              echo "❌ Repo not found at $REPO"
+              exit 1
+            fi
+            cd "$REPO"
+            if [ ! -f scripts/sample-deploy.sh ]; then
+              echo "ℹ️ deploy script missing; pulling latest code from origin/master"
+              git fetch origin master
+              git reset --hard origin/master
+            fi
+            chmod +x scripts/sample-deploy.sh || true
+            bash scripts/sample-deploy.sh
 
 
