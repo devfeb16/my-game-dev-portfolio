@@ -37,17 +37,7 @@ export default function LoaderOverlay() {
 
   return (
     <div className="loader-overlay" role="status" aria-live="polite" aria-label="Loading">
-      <div className="pacman" aria-hidden="true">
-        <div className="pacman-base"></div>
-        <div className="pacman-mouth"></div>
-        <div className="pacman-eye"></div>
-      </div>
-      <div className="pac-dots" aria-hidden="true">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
+      <div className="pac-man" aria-hidden="true"></div>
     </div>
   );
 }
