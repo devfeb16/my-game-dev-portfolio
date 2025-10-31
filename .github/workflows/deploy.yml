@@ -23,7 +23,8 @@ jobs:
           script_stop: true
           script: |
             set -euo pipefail
-            cd /var/www/my-game-dev-portfolio
+            cd /root/my-game-dev-portfolio
+            chmod +x scripts/sample-deploy.sh || true
             bash scripts/sample-deploy.sh
 
 
