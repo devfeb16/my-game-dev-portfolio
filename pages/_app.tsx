@@ -4,6 +4,7 @@ import Head from "next/head";
 import { Orbitron, Inter } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import LoaderOverlay from "@/components/LoaderOverlay";
 
 const orbitron = Orbitron({ subsets: ["latin"], variable: "--font-orbitron" });
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -20,6 +21,7 @@ export default function App({ Component, pageProps }: AppProps) {
         />
       </Head>
       <div className="min-h-screen bg-[#0a0b0f] text-[var(--color-foreground)]">
+        <LoaderOverlay />
         <Header />
         <main className="pt-16">
           <Component {...pageProps} />

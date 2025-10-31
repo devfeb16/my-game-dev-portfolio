@@ -17,7 +17,6 @@ export default function HeroBackground({
   size = 1,
 }: HeroBackgroundProps) {
   const ref = useRef<HTMLDivElement | null>(null);
-  const effectRef = useRef<any>(null);
   const [reduced, setReduced] = useState(false);
 
   useEffect(() => {
@@ -29,44 +28,32 @@ export default function HeroBackground({
   }, []);
 
   useEffect(() => {
-    const isMobile = /Mobi|Android/i.test(navigator.userAgent);
-    const isLowPower = (navigator as any).deviceMemory && (navigator as any).deviceMemory <= 4;
-    if (!ref.current || reduced || isMobile || isLowPower) return;
-
-    let cleanup: (() => void) | undefined;
-    (async () => {
-      const THREE = await import("three");
-      const VANTA = (await import("vanta/dist/vanta.globe.min")) as any;
-      effectRef.current = VANTA.default?.({
-        el: ref.current,
-        THREE: (THREE as any).default ?? THREE,
-        mouseControls: true,
-        touchControls: true,
-        gyroControls: false,
-        minHeight: 200.0,
-        minWidth: 200.0,
-        backgroundColor,
-        color,
-        color2,
-        size,
-      });
-      cleanup = () => {
-        try {
-          effectRef.current?.destroy?.();
-        } catch {}
-      };
-    })();
-    return () => cleanup?.();
-  }, [backgroundColor, color, color2, size, reduced]);
+    // no-op: video uses native autoplay; we gate only via reduced-motion/mobile/low-power
+  }, []);
 
   return (
-    <div ref={ref} className={`absolute inset-0 -z-0 overflow-hidden ${className || ""}`} aria-hidden="true">
+    <div ref={ref} className={`absolute inset-0 z-0 overflow-hidden ${className || ""}`} aria-hidden="true">
+      {!reduced ? (
+        <video
+          className="absolute inset-0 h-full w-full object-cover pointer-events-none"
+          poster="/images/hero-fallback.svg"
+          preload="metadata"
+          muted
+          autoPlay
+          playsInline
+          loop
+        >
+          <source src="/bgvideo/gamedev.webm" type="video/webm" />
+          <source src="/bgvideo/gamedev.mp4" type="video/mp4" />
+        </video>
+      ) : (
+        <div className="pointer-events-none block">
+          <div className="absolute -inset-[20%] bg-[radial-gradient(circle_at_30%_20%,rgba(0,216,255,0.12),transparent_35%),radial-gradient(circle_at_70%_30%,rgba(255,77,255,0.12),transparent_35%),radial-gradient(circle_at_50%_80%,rgba(136,255,0,0.1),transparent_35%)]"></div>
+        </div>
+      )}
       <noscript>
         <img src="/images/hero-fallback.svg" alt="" />
       </noscript>
-      <div className="pointer-events-none hidden [@media(prefers-reduced-motion:reduce)]:block">
-        <div className="absolute -inset-[20%] bg-[radial-gradient(circle_at_30%_20%,rgba(0,216,255,0.12),transparent_35%),radial-gradient(circle_at_70%_30%,rgba(255,77,255,0.12),transparent_35%),radial-gradient(circle_at_50%_80%,rgba(136,255,0,0.1),transparent_35%)]"></div>
-      </div>
     </div>
   );
 }
