@@ -11,8 +11,8 @@ type HeroIntroProps = {
 export default function HeroIntro({
   headline = "I Build Mobile Worlds — Unity, LLMs, & Persistent Play",
   subtitle = "Let’s make something that’s hard to put down.",
-  primaryCta = { href: "/projects", label: "See My Work" },
-  secondaryCta = { href: "/contact", label: "Hire Me" },
+  primaryCta = { href: "/projects", label: "See Me Cook!" },
+  secondaryCta = { href: "/contact", label: "Game On!" },
   className,
 }: HeroIntroProps) {
   return (

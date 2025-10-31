@@ -10,7 +10,7 @@ type PlaceholderSectionProps = {
 
 export default function PlaceholderSection({
   className,
-  label = "Reserved for future large visual",
+  label = "I don't just code, I build worlds to play.",
   title = "Crafting Playable Worlds",
   description = "I design and build mobile-first game experiences with tight feel, stylish UI, and systems that scale. From Unity gameplay loops to LLM-driven NPCs and persistent progression, I love turning ideas into something you can’t put down.",
   minHeightClassName = "min-h-[50vh] md:min-h-[60vh]",
