@@ -10,12 +10,6 @@ export default function Document() {
           href="/bgvideo/bg.mov"
           type="video/quicktime"
         />
-        <link
-          rel="preload"
-          as="video"
-          href="/bgvideo/gamedev.mp4"
-          type="video/mp4"
-        />
       </Head>
       <body className="antialiased">
         <Main />

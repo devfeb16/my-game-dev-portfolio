@@ -28,7 +28,41 @@ export default function HeroBackground({
   }, []);
 
   useEffect(() => {
-    // no-op: video uses native autoplay; we gate only via reduced-motion/mobile/low-power
+    // Prefer MOV; if browser can't play it, dynamically fall back to MP4
+    const video = document.getElementById("hero-bg-video") as HTMLVideoElement | null;
+    if (!video) return;
+
+    const canPlayMov = video.canPlayType ? video.canPlayType("video/quicktime") : "";
+    if (canPlayMov === "") {
+      // Browser likely can't render MOV; try MP4 fallback if available
+      const existingMp4 = Array.from(video.querySelectorAll("source")).some((s) =>
+        (s as HTMLSourceElement).src.endsWith("/bgvideo/gamedev.mp4")
+      );
+      if (!existingMp4) {
+        const mp4 = document.createElement("source");
+        mp4.src = "/bgvideo/gamedev.mp4";
+        mp4.type = "video/mp4";
+        video.appendChild(mp4);
+      }
+      try { video.load(); } catch {}
+    }
+
+    const onError = () => {
+      // If MOV fails to load for any reason, attempt MP4 once
+      const hasMp4 = Array.from(video.querySelectorAll("source")).some((s) =>
+        (s as HTMLSourceElement).type === "video/mp4"
+      );
+      if (!hasMp4) {
+        const mp4 = document.createElement("source");
+        mp4.src = "/bgvideo/gamedev.mp4";
+        mp4.type = "video/mp4";
+        video.appendChild(mp4);
+        try { video.load(); } catch {}
+      }
+    };
+
+    video.addEventListener("error", onError);
+    return () => video.removeEventListener("error", onError);
   }, []);
 
   return (
@@ -45,7 +79,6 @@ export default function HeroBackground({
           loop
         >
           <source src="/bgvideo/bg.mov" type="video/quicktime" />
-          <source src="/bgvideo/gamedev.mp4" type="video/mp4" />
         </video>
       ) : (
         <div className="pointer-events-none block">
