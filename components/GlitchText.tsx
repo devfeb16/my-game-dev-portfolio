@@ -60,3 +60,5 @@ export default function GlitchText({ children, className }: GlitchTextProps) {
   );
 }
 
+
+
