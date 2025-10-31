@@ -35,15 +35,16 @@ export default function HeroBackground({
     <div ref={ref} className={`absolute inset-0 z-0 overflow-hidden ${className || ""}`} aria-hidden="true">
       {!reduced ? (
         <video
+          id="hero-bg-video"
           className="absolute inset-0 h-full w-full object-cover pointer-events-none"
           poster="/images/hero-fallback.svg"
-          preload="metadata"
+          preload="auto"
           muted
           autoPlay
           playsInline
           loop
         >
-          <source src="/bgvideo/gamedev.webm" type="video/webm" />
+          <source src="/bgvideo/bg.mov" type="video/quicktime" />
           <source src="/bgvideo/gamedev.mp4" type="video/mp4" />
         </video>
       ) : (
