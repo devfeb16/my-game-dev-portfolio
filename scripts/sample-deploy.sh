@@ -9,8 +9,8 @@ cd "$(dirname "$0")/.." || { echo "❌ Failed to find project root"; exit 1; }
 # Fetch latest code
 if [ -d .git ]; then
   echo "📦 Fetching latest code from GitHub..."
-  git fetch origin main
-  git reset --hard origin/main
+  git fetch origin master
+  git reset --hard origin/master
 else
   echo "⚠️ No git repository found."
 fi
