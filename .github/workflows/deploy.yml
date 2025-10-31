@@ -23,7 +23,12 @@ jobs:
           script_stop: true
           script: |
             set -euo pipefail
-            cd /root/my-game-dev-portfolio
+            REPO_DIR="${DEPLOY_PROJECT_PATH:-/root/my-game-dev-portfolio}"
+            cd "$REPO_DIR"
+            if [ ! -f scripts/sample-deploy.sh ]; then
+              echo "❌ scripts/sample-deploy.sh not found in $REPO_DIR" >&2
+              exit 1
+            fi
             chmod +x scripts/sample-deploy.sh || true
             bash scripts/sample-deploy.sh
 
