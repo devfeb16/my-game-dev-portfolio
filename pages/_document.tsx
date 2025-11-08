@@ -10,6 +10,9 @@ export default function Document() {
           href="/bgvideo/bg.mov"
           type="video/quicktime"
         />
+        {/* Favicon: SVG primary with ICO fallback for older browsers */}
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="alternate icon" href="/favicon.ico" />
       </Head>
       <body className="antialiased">
         <Main />

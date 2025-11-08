@@ -75,8 +75,10 @@ export default function HeroWrapper({
               )}
               {textAnimationComplete && (
                 <>
-                  <FloatingCodeSnippets />
-                  <div className="mt-8 hidden md:block">
+                  <div className="reveal reveal--slow show" style={{ transitionDelay: '300ms' }}>
+                    <FloatingCodeSnippets />
+                  </div>
+                  <div className="mt-8 hidden md:block reveal reveal--slow" style={{ transitionDelay: '450ms' }}>
                     <HeroStats />
                   </div>
                 </>
@@ -85,7 +87,7 @@ export default function HeroWrapper({
 
             {textAnimationComplete && (
               <div className="md:hidden">
-                <div className="mt-6 md:hidden">
+                <div className="mt-6 md:hidden reveal reveal--slow" style={{ transitionDelay: '450ms' }}>
                   <HeroStats />
                 </div>
               </div>
@@ -94,7 +96,7 @@ export default function HeroWrapper({
         )}
         
         {textAnimationComplete && (
-          <div className="mt-6">
+          <div className="mt-6 reveal reveal--slow" style={{ transitionDelay: '650ms' }}>
             <PlaceholderSection />
           </div>
         )}

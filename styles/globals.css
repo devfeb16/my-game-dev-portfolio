@@ -11,7 +11,8 @@
   --neon-blue: #60a5fa;
 }
 
-@theme inline {
+/* Mirror theme variables on :root for broader compatibility (removed nonstandard @theme rule) */
+:root {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-border: var(--border);
@@ -128,4 +129,54 @@ body {
   .pac-dots span {
     animation: none;
   }
+}
+
+/* --- Hero reveal & typewriter animations --- */
+
+:root {
+  --typewriter-caret: var(--neon-cyan);
+}
+
+@keyframes hero-fade-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes hero-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Simple typewriter caret + fallback JS-friendly class */
+.typewriter-heading { font-family: 'Lato', sans-serif; }
+.typewriter-caret::after {
+  content: '';
+  display: inline-block;
+  width: 1px;
+  height: 1em;
+  margin-left: 0.35rem;
+  background: var(--typewriter-caret);
+  animation: blink-caret 1s steps(1) infinite;
+}
+
+@keyframes blink-caret {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* staged reveal utilities */
+.reveal { opacity: 0; transform: translateY(8px); }
+.reveal.show { opacity: 1; transform: translateY(0); }
+.reveal--slow { transition: opacity 600ms ease, transform 600ms ease; }
+.reveal--fast { transition: opacity 420ms cubic-bezier(.2,.9,.2,1), transform 420ms cubic-bezier(.2,.9,.2,1); }
+
+/* helper to add a delay via inline style or class */
+.reveal-delay-1 { transition-delay: 1000ms; }
+.reveal-delay-2 { transition-delay: 1400ms; }
+.reveal-delay-3 { transition-delay: 1700ms; }
+
+/* accessibility: respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .typewriter-caret::after { animation: none; }
+  .reveal, .reveal.show { transition: none; transform: none; opacity: 1; }
 }

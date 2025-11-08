@@ -25,65 +25,78 @@ export default function HeroText({
   const [subtitleText, setSubtitleText] = useState("");
   const [showButtons, setShowButtons] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
+  const [headingRevealed, setHeadingRevealed] = useState(false);
+  const [subtitleRevealed, setSubtitleRevealed] = useState(false);
 
   useEffect(() => {
     if (startDelay > 0) {
       const delayTimer = setTimeout(() => {
         setIsTyping(true);
+        // reveal heading as we start typing so CSS transitions are visible
+        setHeadingRevealed(true);
         startTyping();
       }, startDelay);
       return () => clearTimeout(delayTimer);
     } else {
       setIsTyping(true);
+      setHeadingRevealed(true);
       startTyping();
     }
   }, [startDelay]);
 
   const startTyping = () => {
-    // Type headline character by character
-    let headlineIndex = 0;
-    const headlineInterval = setInterval(() => {
-      if (headlineIndex < headline.length) {
-        setDisplayText(headline.slice(0, headlineIndex + 1));
-        headlineIndex++;
-      } else {
-        clearInterval(headlineInterval);
-        
-        // Start subtitle after a brief pause
-        setTimeout(() => {
-          let subtitleIndex = 0;
-          const subtitleInterval = setInterval(() => {
-            if (subtitleIndex < subtitle.length) {
-              setSubtitleText(subtitle.slice(0, subtitleIndex + 1));
-              subtitleIndex++;
-            } else {
-              clearInterval(subtitleInterval);
-              
-              // Show buttons after subtitle completes
-              setTimeout(() => {
-                setShowButtons(true);
-                setIsTyping(false);
-                onAnimationComplete?.();
-              }, 500);
-            }
-          }, 30); // Typing speed for subtitle
-        }, 300);
+    // Use async per-character typing so timings are precise and easier to tune
+    const sleep = (ms: number) => new Promise((res) => setTimeout(res, ms));
+
+    const run = async () => {
+      // reveal heading container immediately
+      setHeadingRevealed(true);
+
+      // headline typing: ~100ms per char (feel free to tweak)
+      const headlineMs = 100; // ms per character => long/visible
+      for (let i = 1; i <= headline.length; i++) {
+        setDisplayText(headline.slice(0, i));
+        await sleep(headlineMs);
       }
-    }, 50); // Typing speed for headline
+
+      // small pause after headline
+      await sleep(500);
+
+      // subtitle typing: ~60ms per char
+      const subtitleMs = 60;
+      for (let i = 1; i <= subtitle.length; i++) {
+        setSubtitleText(subtitle.slice(0, i));
+        await sleep(subtitleMs);
+      }
+
+      // reveal subtitle and then CTAs
+      setSubtitleRevealed(true);
+      await sleep(400);
+      setShowButtons(true);
+      setIsTyping(false);
+
+      // allow buttons to animate in, then signal parent
+      await sleep(350);
+      onAnimationComplete?.();
+    };
+
+    run().catch(() => {
+      // ensure we clear typing state on error
+      setIsTyping(false);
+      setShowButtons(true);
+      onAnimationComplete?.();
+    });
   };
 
   return (
     <div className={`relative z-10 mx-0 lg:mx-auto max-w-none lg:max-w-6xl px-0 md:px-2 pt-6 md:pt-8 pb-8 ${className || ""}`}>
       <div className="relative">
         <div className="absolute -inset-4 bg-[#0b0f12]/60 blur-xl"></div>
-        <h1 className="relative font-[var(--font-orbitron)] text-[clamp(1.85rem,5.5vw,4rem)] md:text-[clamp(2rem,5vw,4.25rem)] leading-[1.05] md:leading-[1] tracking-wide text-zinc-100 drop-shadow-[0_0_20px_rgba(0,216,255,0.3)]">
-          {displayText}
-          {isTyping && displayText.length < headline.length && (
-            <span className="inline-block w-1 h-[1em] bg-neon-cyan ml-1 animate-pulse">|</span>
-          )}
+        <h1 className={`relative typewriter-heading text-[clamp(1.85rem,5.5vw,4rem)] md:text-[clamp(2rem,5vw,4.25rem)] leading-[1.05] md:leading-[1] tracking-wide text-zinc-100 drop-shadow-[0_0_20px_rgba(0,216,255,0.3)] reveal reveal--slow ${headingRevealed ? 'show' : ''}`} aria-label={headline}>
+          <span className="typewriter-caret">{displayText}</span>
         </h1>
       </div>
-      <div className="relative mt-5">
+      <div className={`relative mt-5 reveal reveal--fast ${subtitleRevealed ? 'show' : ''}`}>
         <div className="absolute -inset-3 bg-[#0b0f12]/40 blur-lg"></div>
         <p className="relative text-[clamp(0.95rem,2vw,1.25rem)] md:text-[clamp(1rem,1.8vw,1.375rem)] font-medium text-zinc-300 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
           {subtitleText}
@@ -95,7 +108,7 @@ export default function HeroText({
           )}
         </p>
       </div>
-      <div className={`mt-8 flex flex-wrap items-center gap-4 transition-opacity duration-500 ${showButtons ? 'opacity-100' : 'opacity-0'}`}>
+      <div className={`mt-8 flex flex-wrap items-center gap-4 reveal reveal--fast ${showButtons ? 'show' : ''}`} style={showButtons ? { transitionDelay: '120ms' } : undefined}>
         {showButtons && (
           <>
             <GameButton href={primaryCta.href} label={primaryCta.label} />
