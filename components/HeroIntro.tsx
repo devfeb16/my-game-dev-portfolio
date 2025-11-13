@@ -1,7 +1,7 @@
 import GameButton from "./GameButton";
 
-export const DEFAULT_HEADLINE = "I Build Mobile Worlds — Unity, LLMs, & Persistent Play";
-export const DEFAULT_SUBTITLE = "Let’s make something that’s hard to put down.";
+export const DEFAULT_HEADLINE = "Your Next Mobile Game Hit. Built in Unity.";
+export const DEFAULT_SUBTITLE = "I build games that are hard to put down.";
 
 type HeroIntroProps = {
   headline?: string;

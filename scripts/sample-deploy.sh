@@ -48,7 +48,7 @@ echo "⚙️ Building project..."
 npm run build
 
 # Run with PM2
-APP_NAME="unitydevs"
+APP_NAME="unitydevs4000"
 PORT=4000
 
 if pm2 list | grep -q "$APP_NAME"; then
