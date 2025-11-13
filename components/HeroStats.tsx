@@ -3,8 +3,8 @@ type HeroStatsProps = { stats?: Stat[]; className?: string };
 
 const defaultStats: Stat[] = [
   { label: "Shipped Titles", value: "12+" },
-  { label: "Downloads", value: "3M+" },
-  { label: "Experience", value: "6 yrs" },
+  { label: "Downloads", value: "3k+" },
+  { label: "Experience", value: "4 yrs" },
   { label: "LLM/ML Prototypes", value: "4" },
 ];
 

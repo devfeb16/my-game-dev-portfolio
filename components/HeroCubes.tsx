@@ -8,9 +8,9 @@ const defaultCubes: Cube[] = [
   { label: "Unity", href: "/projects", color: "#00d8ff" },
   { label: "C#", href: "/projects", color: "#ff4dff" },
   { label: "LLM", href: "/projects", color: "#88ff00" },
-  { label: "Pinecone", href: "/projects", color: "#00d8ff" },
+  { label: "Pinecone DB", href: "/projects", color: "#00d8ff" },
   { label: "FastAPI", href: "/projects", color: "#ff4dff" },
-  { label: "Next.js", href: "/projects", color: "#88ff00" },
+  { label: "Unreal Engine", href: "/projects", color: "#88ff00" },
 ];
 
 export default function HeroCubes({ className, cubes = defaultCubes, variant = "default" }: HeroCubesProps) {
