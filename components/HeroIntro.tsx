@@ -1,4 +1,5 @@
 import GameButton from "./GameButton";
+import { SiFiverr, SiUpwork, SiLinkedin } from "react-icons/si";
 
 export const DEFAULT_HEADLINE = "Your Next Mobile Game Hit. Built in Unity.";
 export const DEFAULT_SUBTITLE = "I build games that are hard to put down.";
@@ -64,6 +65,44 @@ export default function HeroIntro({
       >
         <GameButton href={primaryCta.href} label={primaryCta.label} />
         <GameButton href={secondaryCta.href} label={secondaryCta.label} variant="secondary" />
+      </div>
+      <div
+        className={`mt-6 flex items-center gap-5 text-zinc-100/80 transition-all duration-700 ease-out ${
+          showDetails ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3 pointer-events-none"
+        }`}
+        style={showDetails ? { transitionDelay: "300ms" } : undefined}
+        aria-hidden={!showDetails}
+      >
+        <a
+          href="https://www.fiverr.com/s/EgQz3ey"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Fiverr profile"
+          className="transform transition duration-200 hover:-translate-y-0.5 hover:text-[#1dbf73]"
+        >
+          <SiFiverr className="h-7 w-7" />
+          <span className="sr-only">Fiverr profile</span>
+        </a>
+        <a
+          href="https://www.upwork.com/freelancers/~015f09e4ce1f66527f?p=1804023285153173504"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Upwork profile"
+          className="transform transition duration-200 hover:-translate-y-0.5 hover:text-[#14a800]"
+        >
+          <SiUpwork className="h-7 w-7" />
+          <span className="sr-only">Upwork profile</span>
+        </a>
+        <a
+          href="https://www.linkedin.com/in/muhammad-adeel-3836b8274"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="LinkedIn profile"
+          className="transform transition duration-200 hover:-translate-y-0.5 hover:text-[#0a66c2]"
+        >
+          <SiLinkedin className="h-7 w-7" />
+          <span className="sr-only">LinkedIn profile</span>
+        </a>
       </div>
     </div>
   );
