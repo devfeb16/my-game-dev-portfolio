@@ -23,9 +23,9 @@ export default function HeroCubes({ className, cubes = defaultCubes, variant = "
           key={c.label}
           href={c.href}
           aria-label={c.label}
-          className={`group relative overflow-hidden rounded-lg border p-4 perspective transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(0,216,255,0.4)] ${
+          className={`group relative overflow-hidden rounded-lg border p-4 perspective transition-all duration-300 hover:scale-105 hover:shadow-[0_0_40px_rgba(0,216,255,0.45)] ${
             variant === "bright"
-              ? "border-[var(--color-border)]/50 bg-transparent hover:border-[rgba(0,216,255,0.7)]"
+              ? "border-[var(--color-border)]/35 bg-white/3 hover:border-[rgba(0,216,255,0.8)] backdrop-blur"
               : "border-[var(--color-border)]/40 bg-transparent hover:border-[rgba(0,216,255,0.6)]"
           }`}
           onMouseMove={(e) => {
@@ -61,8 +61,8 @@ export default function HeroCubes({ className, cubes = defaultCubes, variant = "
               background: `linear-gradient(45deg, ${c.color}08, ${c.color}15)`,
             }}
           />
-          <div className={`relative z-10 font-medium transition-colors ${
-            variant === "bright" ? "text-zinc-100" : "text-zinc-200 group-hover:text-white"
+          <div className={`relative z-10 font-semibold tracking-wide transition-colors drop-shadow-[0_0_18px_rgba(0,215,255,0.35)] ${
+            variant === "bright" ? "text-white" : "text-zinc-100 group-hover:text-white"
           }`}>
             {c.label}
           </div>
