@@ -175,6 +175,34 @@ body {
 .reveal-delay-2 { transition-delay: 1400ms; }
 .reveal-delay-3 { transition-delay: 1700ms; }
 
+.hero-typewriter {
+  position: relative;
+  display: inline;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.hero-typewriter::after {
+  content: "";
+  display: inline-block;
+  height: 1em;
+  width: 0.28em;
+  margin-left: 0.35rem;
+  background: currentColor;
+  opacity: 0;
+  vertical-align: -.12em;
+}
+
+.hero-typewriter--active::after {
+  opacity: 1;
+  animation: blink-caret 0.6s steps(1) infinite;
+}
+
+.hero-typewriter--inactive::after {
+  opacity: 0;
+  animation: none;
+}
+
 /* accessibility: respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .typewriter-caret::after { animation: none; }

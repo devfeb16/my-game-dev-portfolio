@@ -18,19 +18,19 @@ export default function PlaceholderSection({
   return (
     <section
       aria-label="Reserved Placeholder"
-      className={`relative isolate z-10 w-full border-t border-[var(--color-border)]/40 ${minHeightClassName} ${className || ""}`}
+      className={`relative isolate z-10 w-full ${minHeightClassName} ${className || ""}`}
     >
       <div className="relative mx-0 lg:mx-auto max-w-none lg:max-w-7xl px-3 md:px-6 py-14 md:py-16">
-        <div className="relative rounded-2xl border border-[var(--color-border)]/30 p-8 md:p-12">
-          <div className="pointer-events-none absolute -inset-2 rounded-2xl bg-white/6 blur-xl"></div>
+        <div className="relative overflow-hidden rounded-2xl bg-[#0c141d]/85 p-8 md:p-12 shadow-[0_35px_120px_rgba(8,16,24,0.55)] ring-1 ring-white/5">
+          <div className="pointer-events-none absolute -inset-8 bg-gradient-to-br from-white/8 via-transparent to-transparent blur-3xl"></div>
           <div className="mx-auto max-w-4xl text-left">
-            <h2 className="font-[var(--font-orbitron)] text-[clamp(1.5rem,4vw,2.5rem)] leading-tight text-zinc-100 drop-shadow-[0_0_28px_rgba(0,216,255,0.35)]">
+            <h2 className="font-[var(--font-orbitron)] text-[clamp(1.5rem,4vw,2.5rem)] leading-tight text-[#f4f8ff] drop-shadow-[0_0_30px_rgba(0,180,255,0.4)]">
               {title}
             </h2>
-            <p className="mt-3 text-[clamp(0.95rem,2vw,1.125rem)] text-zinc-100 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
+            <p className="mt-3 text-[clamp(0.95rem,2vw,1.125rem)] text-zinc-100/95 drop-shadow-[0_15px_35px_rgba(0,0,0,0.55)]">
               {description}
             </p>
-            <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-dashed border-[var(--color-border)]/60 px-3 py-1 text-[12px] text-zinc-300 shadow-[0_0_20px_rgba(0,216,255,0.2)]">
+            <div className="mt-6 inline-flex items-center gap-2 rounded-full bg-white/8 px-3 py-1 text-[12px] text-zinc-100/85 shadow-[0_12px_40px_rgba(0,200,255,0.25)] backdrop-blur">
               {label}
             </div>
           </div>
