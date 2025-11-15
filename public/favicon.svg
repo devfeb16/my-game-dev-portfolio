@@ -1,14 +1,71 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
-  <rect width="64" height="64" rx="10" fill="#0b0f12"/>
-  <g fill="#22d3ee" transform="translate(6 10)">
-    <!-- simplified gamepad icon -->
-    <path d="M22 0C9.85 0 0 8.95 0 20c0 6.05 5.5 11 12 11h20c6.5 0 12-4.95 12-11C44 8.95 34.15 0 22 0z"/>
-    <circle cx="12" cy="14" r="2.2" fill="#0b0f12" />
-    <circle cx="30" cy="14" r="2.2" fill="#0b0f12" />
-    <rect x="8" y="10" width="4" height="8" rx="1" fill="#0b0f12" />
-    <rect x="26" y="10" width="4" height="8" rx="1" fill="#0b0f12" />
-    <!-- d-pad left -->
-    <rect x="-1" y="22" width="6" height="4" rx="1" fill="#22d3ee" transform="translate(6,0)"/>
-    <rect x="2" y="19" width="4" height="10" rx="1" fill="#22d3ee" transform="translate(6,0)"/>
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0b0f;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a1b2e;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="neonCyan" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#22d3ee;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#60a5fa;stop-opacity:0.9" />
+    </linearGradient>
+    <!-- Glow effect -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background with rounded corners -->
+  <rect width="64" height="64" rx="12" fill="url(#bgGrad)"/>
+  
+  <!-- Main Game Development Icon: Mobile Device with Unity Cube -->
+  <g transform="translate(16, 10)">
+    <!-- Phone body -->
+    <rect x="4" y="2" width="24" height="40" rx="4.5" fill="#1a1b2e" stroke="url(#neonCyan)" stroke-width="1.5" opacity="0.95" filter="url(#glow)"/>
+    
+    <!-- Screen -->
+    <rect x="7.5" y="6" width="19" height="28" rx="2" fill="#0a0b0f"/>
+    
+    <!-- Unity Cube (isometric view) on screen -->
+    <g transform="translate(16, 20)">
+      <!-- Top face -->
+      <path d="M-5.5 -2.5 L 0 -5.5 L 5.5 -2.5 L 0 0.5 Z" fill="#22d3ee" opacity="0.85" filter="url(#glow)"/>
+      <!-- Right face -->
+      <path d="M 0.5 0.5 L 5.5 -2.5 L 5.5 2.5 L 0.5 5.5 Z" fill="#60a5fa" opacity="0.7" filter="url(#glow)"/>
+      <!-- Left face -->
+      <path d="M-5.5 -2.5 L 0.5 0.5 L 0.5 5.5 L-5.5 2.5 Z" fill="#22d3ee" opacity="0.6"/>
+      <!-- Cube edge highlights -->
+      <line x1="-5.5" y1="-2.5" x2="0" y2="-5.5" stroke="#22d3ee" stroke-width="0.5" opacity="0.9"/>
+      <line x1="5.5" y1="-2.5" x2="0" y2="-5.5" stroke="#60a5fa" stroke-width="0.5" opacity="0.9"/>
+    </g>
+    
+    <!-- Game controller icon (bottom of screen) -->
+    <g transform="translate(16, 28)">
+      <!-- Controller body -->
+      <ellipse cx="0" cy="1" rx="4.5" ry="2.5" fill="#22d3ee" opacity="0.5" filter="url(#glow)"/>
+      <!-- Left thumbstick -->
+      <circle cx="-2.5" cy="0.5" r="1" fill="#60a5fa" opacity="0.8"/>
+      <!-- Right thumbstick -->
+      <circle cx="2.5" cy="0.5" r="1" fill="#60a5fa" opacity="0.8"/>
+    </g>
+    
+    <!-- Phone home indicator -->
+    <rect x="13" y="36" width="6" height="1.2" rx="0.6" fill="url(#neonCyan)" opacity="0.6"/>
+  </g>
+  
+  <!-- Accent: Small star icon (top right corner) -->
+  <g transform="translate(48, 8)">
+    <path d="M 2.5 0 L 3.3 2 L 5.5 2 L 3.8 3.5 L 4.6 5.5 L 2.5 4.5 L 0.4 5.5 L 1.2 3.5 L -0.5 2 L 1.7 2 Z" 
+          fill="#22d3ee" opacity="0.4" filter="url(#glow)"/>
+  </g>
+  
+  <!-- Accent: Code brackets (bottom left) representing programming -->
+  <g transform="translate(8, 48)">
+    <path d="M 0 0 L 1.5 0 L 1.5 5 L 0 5" stroke="#60a5fa" stroke-width="1.2" fill="none" opacity="0.5" filter="url(#glow)" stroke-linecap="round"/>
+    <path d="M 4.5 0 L 6 0 L 6 5 L 4.5 5" stroke="#60a5fa" stroke-width="1.2" fill="none" opacity="0.5" filter="url(#glow)" stroke-linecap="round"/>
   </g>
 </svg>
