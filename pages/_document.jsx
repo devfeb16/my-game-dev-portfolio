@@ -10,10 +10,10 @@ export default function Document() {
           href="/bgvideo/bg.mov"
           type="video/quicktime"
         />
-        {/* Favicon: Custom Game Development themed SVG */}
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="apple-touch-icon" href="/favicon.svg" />
+        {/* Favicon: Custom Game Development themed SVG - Must be first to take precedence */}
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2" />
+        <link rel="alternate icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/favicon.svg?v=2" />
         <meta name="theme-color" content="#0a0b0f" />
         <meta name="msapplication-TileColor" content="#0a0b0f" />
       </Head>
