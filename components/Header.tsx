@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { useState } from "react";
+import { useRouter } from "next/router";
+import { useHeroAnimation } from "@/contexts/HeroAnimationContext";
 
 const navItems = [
   { href: "/", label: "Home" },
@@ -10,8 +12,17 @@ const navItems = [
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const router = useRouter();
+  const { isAnimating } = useHeroAnimation();
+  const isHomePage = router.pathname === "/";
+  const shouldHide = isHomePage && isAnimating;
+
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-[var(--color-border)]/30 bg-[#0a0b0f]/80 backdrop-blur">
+    <header 
+      className={`fixed inset-x-0 top-0 z-50 border-b border-[var(--color-border)]/30 bg-[#0a0b0f]/80 backdrop-blur transition-all duration-700 ease-out ${
+        shouldHide ? "opacity-0 -translate-y-full" : "opacity-100 translate-y-0"
+      }`}
+    >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
         <Link href="/" className="group font-bold tracking-wide text-neon-cyan">
           <span className="font-[var(--font-orbitron)] text-xl">

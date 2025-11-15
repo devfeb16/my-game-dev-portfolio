@@ -6,6 +6,7 @@ import HeroCubes from "./HeroCubes";
 import HeroStats from "./HeroStats";
 import FloatingCodeSnippets from "./FloatingCodeSnippets";
 import PlaceholderSection from "./PlaceholderSection";
+import { useHeroAnimation } from "@/contexts/HeroAnimationContext";
 
 type HeroProps = {
   className?: string;
@@ -20,6 +21,7 @@ export default function Hero({ className, headline, subtitle }: HeroProps) {
   const [displayHeadline, setDisplayHeadline] = useState("");
   const [reduceMotion, setReduceMotion] = useState(false);
   const [detailsVisible, setDetailsVisible] = useState(false);
+  const { setIsAnimating } = useHeroAnimation();
 
   const effectiveHeadline = headline ?? DEFAULT_HEADLINE;
 
@@ -54,12 +56,14 @@ export default function Hero({ className, headline, subtitle }: HeroProps) {
       setStage("rest");
       setDisplayHeadline(effectiveHeadline);
       setDetailsVisible(true);
+      setIsAnimating(false);
       return;
     }
 
     setStage("background");
     setDisplayHeadline("");
     setDetailsVisible(false);
+    setIsAnimating(true);
 
     // Add a small delay to ensure DOM is ready, especially on mobile
     // This helps with mobile browsers that may throttle timers during initial load
@@ -69,7 +73,7 @@ export default function Hero({ className, headline, subtitle }: HeroProps) {
     }, 1000);
 
     return () => window.clearTimeout(showHeadlineTimer);
-  }, [reduceMotion, effectiveHeadline]);
+  }, [reduceMotion, effectiveHeadline, setIsAnimating]);
 
   useEffect(() => {
     if (reduceMotion || stage !== "headline") {
@@ -104,7 +108,10 @@ export default function Hero({ className, headline, subtitle }: HeroProps) {
           if (animationFrameId !== undefined) {
             cancelAnimationFrame(animationFrameId);
           }
-          finishTimer = window.setTimeout(() => setStage("rest"), 220);
+          finishTimer = window.setTimeout(() => {
+            setStage("rest");
+            setIsAnimating(false);
+          }, 220);
           return;
         }
       }
