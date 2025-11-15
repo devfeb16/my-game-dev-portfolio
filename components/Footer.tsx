@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Footer() {
   return (
     <footer className="mt-16 border-t border-[var(--color-border)]/30 bg-[#090a0e]">
@@ -7,9 +9,10 @@ export default function Footer() {
           <span className="ml-3 text-zinc-500">Unity • C# • LLM • ML</span>
         </div>
         <div className="flex items-center gap-4">
-          <a className="hover:text-neon-cyan" href="/projects">Projects</a>
-          <a className="hover:text-neon-cyan" href="/about">About</a>
-          <a className="hover:text-neon-cyan" href="/contact">Contact</a>
+          <Link className="hover:text-neon-cyan transition-colors" href="/projects">Projects</Link>
+          <Link className="hover:text-neon-cyan transition-colors" href="/blogs">Blogs</Link>
+          <Link className="hover:text-neon-cyan transition-colors" href="/about">About</Link>
+          <Link className="hover:text-neon-cyan transition-colors" href="/contact">Contact</Link>
         </div>
       </div>
       <div className="h-px w-full bg-gradient-to-r from-transparent via-neon-magenta/40 to-transparent"></div>

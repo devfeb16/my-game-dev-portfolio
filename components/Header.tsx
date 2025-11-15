@@ -7,6 +7,7 @@ const navItems = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
   { href: "/projects", label: "Projects" },
+  { href: "/blogs", label: "Blogs" },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -31,15 +32,23 @@ export default function Header() {
           <span className="ml-2 inline-block h-1 w-6 rounded-full bg-neon-cyan/80 group-hover:w-10 transition-all"></span>
         </Link>
         <nav className="hidden gap-8 md:flex">
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="text-sm uppercase tracking-wider text-zinc-300 hover:text-neon-cyan transition-colors"
-            >
-              {item.label}
-            </Link>
-          ))}
+          {navItems.map((item) => {
+            const isActive = router.pathname === item.href || 
+              (item.href !== "/" && router.pathname.startsWith(item.href));
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`text-sm uppercase tracking-wider transition-colors ${
+                  isActive
+                    ? "text-neon-cyan font-semibold border-b-2 border-neon-cyan pb-1"
+                    : "text-zinc-300 hover:text-neon-cyan"
+                }`}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
         </nav>
         <button
           aria-label="Menu"
