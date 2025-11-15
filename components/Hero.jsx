@@ -191,19 +191,9 @@ export default function Hero({ className, headline, subtitle }) {
             aria-hidden={!showDetails}
           >
             <FloatingCodeSnippets />
-            <div className="mt-8 hidden md:block">
+            <div className="mt-8">
               <HeroStats />
             </div>
-          </div>
-        </div>
-
-        <div
-          className={`md:transition-all duration-700 ease-out ${showDetails ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"}`}
-          style={showDetails ? { transitionDelay: "260ms" } : {}}
-          aria-hidden={!showDetails}
-        >
-          <div className="mt-6 md:block">
-            <HeroStats />
           </div>
         </div>
       </div>
