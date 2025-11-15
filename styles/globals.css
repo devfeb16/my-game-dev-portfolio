@@ -203,8 +203,48 @@ body {
   animation: none;
 }
 
+/* Project card animations */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-in-from-bottom-4 {
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-in {
+  animation: fade-in 0.6s ease-out forwards;
+}
+
+.fade-in {
+  animation: fade-in 0.6s ease-out forwards;
+}
+
+.slide-in-from-bottom-4 {
+  animation: slide-in-from-bottom-4 0.6s ease-out forwards;
+}
+
 /* accessibility: respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .typewriter-caret::after { animation: none; }
   .reveal, .reveal.show { transition: none; transform: none; opacity: 1; }
+  .animate-in, .fade-in, .slide-in-from-bottom-4 { 
+    animation: none; 
+    opacity: 1; 
+    transform: none;
+  }
 }

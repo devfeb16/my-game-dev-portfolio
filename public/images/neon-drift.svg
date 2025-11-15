@@ -1,0 +1,66 @@
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="roadGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0f0f1e;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="neonCyan" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#22d3ee;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#06b6d4;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="neonMagenta" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#f43f5e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ec4899;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="600" fill="#0a0b0f"/>
+  
+  <!-- Road -->
+  <rect x="0" y="200" width="800" height="400" fill="url(#roadGrad)"/>
+  
+  <!-- Road lines -->
+  <line x1="400" y1="200" x2="400" y2="600" stroke="#22d3ee" stroke-width="3" stroke-dasharray="20,30" opacity="0.6" filter="url(#glow)"/>
+  <line x1="200" y1="250" x2="200" y2="600" stroke="#22d3ee" stroke-width="2" stroke-dasharray="15,25" opacity="0.4"/>
+  <line x1="600" y1="250" x2="600" y2="600" stroke="#22d3ee" stroke-width="2" stroke-dasharray="15,25" opacity="0.4"/>
+  
+  <!-- Neon barriers -->
+  <rect x="0" y="200" width="150" height="400" fill="url(#neonCyan)" opacity="0.1"/>
+  <rect x="650" y="200" width="150" height="400" fill="url(#neonMagenta)" opacity="0.1"/>
+  
+  <!-- Racing car silhouette -->
+  <g transform="translate(300, 350)">
+    <rect x="0" y="0" width="200" height="80" rx="10" fill="#1a1a2e" opacity="0.8"/>
+    <rect x="20" y="10" width="160" height="60" rx="8" fill="url(#neonCyan)" opacity="0.3" filter="url(#glow)"/>
+    <circle cx="50" cy="80" r="25" fill="#0f0f1e"/>
+    <circle cx="50" cy="80" r="18" fill="#22d3ee" opacity="0.4" filter="url(#glow)"/>
+    <circle cx="150" cy="80" r="25" fill="#0f0f1e"/>
+    <circle cx="150" cy="80" r="18" fill="#f43f5e" opacity="0.4" filter="url(#glow)"/>
+  </g>
+  
+  <!-- Speed lines -->
+  <line x1="100" y1="300" x2="50" y2="320" stroke="#22d3ee" stroke-width="2" opacity="0.5"/>
+  <line x1="100" y1="400" x2="50" y2="420" stroke="#22d3ee" stroke-width="2" opacity="0.5"/>
+  <line x1="100" y1="500" x2="50" y2="520" stroke="#22d3ee" stroke-width="2" opacity="0.5"/>
+  <line x1="700" y1="300" x2="750" y2="320" stroke="#f43f5e" stroke-width="2" opacity="0.5"/>
+  <line x1="700" y1="400" x2="750" y2="420" stroke="#f43f5e" stroke-width="2" opacity="0.5"/>
+  <line x1="700" y1="500" x2="750" y2="520" stroke="#f43f5e" stroke-width="2" opacity="0.5"/>
+  
+  <!-- Particles -->
+  <circle cx="150" cy="250" r="3" fill="#22d3ee" opacity="0.8" filter="url(#glow)"/>
+  <circle cx="250" cy="280" r="2" fill="#f43f5e" opacity="0.8" filter="url(#glow)"/>
+  <circle cx="550" cy="270" r="3" fill="#22d3ee" opacity="0.8" filter="url(#glow)"/>
+  <circle cx="650" cy="290" r="2" fill="#f43f5e" opacity="0.8" filter="url(#glow)"/>
+  
+  <!-- Title text effect -->
+  <text x="400" y="150" font-family="Arial, sans-serif" font-size="48" font-weight="bold" text-anchor="middle" fill="url(#neonCyan)" opacity="0.9" filter="url(#glow)">NEON DRIFT</text>
+</svg>
+
