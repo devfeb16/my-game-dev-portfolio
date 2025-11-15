@@ -20,7 +20,7 @@ export default function HeroIntro({
 
   return (
     <div
-      className={`relative z-10 mx-0 lg:mx-auto max-w-none lg:max-w-6xl px-0 md:px-2 pt-6 md:pt-8 pb-8 transition-opacity duration-700 ease-out ${
+      className={`relative z-10 mx-0 lg:mx-auto max-w-none lg:max-w-6xl px-0 md:px-2 pt-2 md:pt-3 pb-3 transition-opacity duration-700 ease-out ${
         showHeadline ? "opacity-100" : "opacity-0"
       } ${className || ""}`}
       aria-hidden={!showHeadline}
@@ -32,7 +32,7 @@ export default function HeroIntro({
         </h1>
       </div>
       <div
-        className={`relative mt-5 transform transition-all duration-700 ease-out ${
+        className={`relative mt-3 transform transition-all duration-700 ease-out ${
           showDetails ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3 pointer-events-none"
         }`}
         style={showDetails ? { transitionDelay: "140ms" } : {}}
@@ -45,7 +45,7 @@ export default function HeroIntro({
         </p>
       </div>
       <div
-        className={`mt-8 flex flex-wrap items-center gap-4 transition-all duration-700 ease-out ${
+        className={`mt-4 flex flex-wrap items-center gap-4 transition-all duration-700 ease-out ${
           showDetails ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3 pointer-events-none"
         }`}
         style={showDetails ? { transitionDelay: "220ms" } : {}}
@@ -55,7 +55,7 @@ export default function HeroIntro({
         <GameButton href={secondaryCta.href} label={secondaryCta.label} variant="secondary" />
       </div>
       <div
-        className={`mt-6 flex items-center gap-5 text-zinc-100/80 transition-all duration-700 ease-out ${
+        className={`mt-3 flex items-center gap-5 text-zinc-100/80 transition-all duration-700 ease-out ${
           showDetails ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3 pointer-events-none"
         }`}
         style={showDetails ? { transitionDelay: "300ms" } : {}}
