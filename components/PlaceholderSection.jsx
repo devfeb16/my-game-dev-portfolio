@@ -23,7 +23,7 @@ export default function PlaceholderSection({
             <p className="mt-4 text-[clamp(1.05rem,2.3vw,1.3rem)] text-white leading-relaxed tracking-[0.02em]">
               {description}
             </p>
-            <div className="mt-7 inline-flex items-center gap-2 rounded-full border border-cyan-200/35 bg-white/14 px-4 py-1.5 text-[13px] font-semibold uppercase tracking-[0.3em] text-white">
+            <div className="mt-7 inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-5 py-2 text-[13px] font-semibold uppercase tracking-[0.3em] text-white shadow-[0_0_20px_rgba(255,255,255,0.3),0_0_40px_rgba(255,255,255,0.15),inset_0_0_20px_rgba(255,255,255,0.1)] backdrop-blur-sm">
               {label}
             </div>
           </div>

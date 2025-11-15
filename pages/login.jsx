@@ -42,7 +42,7 @@ export default function LoginPage() {
       <Head>
         <title>Login | Game Dev Portfolio</title>
       </Head>
-      <div className="min-h-screen bg-gradient-to-br from-[#0a0b0f] via-[#1a1b2e] to-[#0a0b0f] flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gradient-to-br from-[#0a0b0f] via-[#1a1b2e] to-[#0a0b0f] flex items-center justify-center p-4 pt-24">
         <div className="w-full max-w-md">
           <div className="bg-[#1a1b2e]/80 backdrop-blur-lg border border-[#2a2b3e] rounded-2xl p-8 shadow-2xl">
             <div className="text-center mb-8">

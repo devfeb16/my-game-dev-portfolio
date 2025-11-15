@@ -13,22 +13,20 @@ const orbitron = Orbitron({ subsets: ["latin"], variable: "--font-orbitron" });
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 // Pages that should not show header/footer
-const AUTH_PAGES = ['/login'];
 const DASHBOARD_PAGES = ['/dashboard'];
 
 function AppContent({ Component, pageProps }) {
   const router = useRouter();
-  const isAuthPage = AUTH_PAGES.includes(router.pathname);
   const isDashboardPage = router.pathname.startsWith('/dashboard');
 
-  // Don't show header/footer on auth or dashboard pages
-  const showLayout = !isAuthPage && !isDashboardPage;
+  // Don't show header/footer only on dashboard pages
+  const showLayout = !isDashboardPage;
 
   return (
     <>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        {!isAuthPage && !isDashboardPage && (
+        {!isDashboardPage && (
           <>
             <title>Unity Game Developer Portfolio | UnityDevs + LLM/ML Projects</title>
             <meta
