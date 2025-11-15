@@ -12,9 +12,9 @@ export default function PlaceholderSection({
       aria-label="Reserved Placeholder"
       className={`relative isolate z-10 w-full ${minHeightClassName} ${className || ""}`}
     >
-      <div className="relative mx-0 lg-auto max-w-none lg-w-7xl px-3 md-6 py-14 md-16">
-        <div className="relative overflow-hidden rounded-2xl bg-[#08131f]/94 p-8 md:p-12">
-          <div className="mx-auto max-w-4xl text-left">
+      <div className="relative mx-auto max-w-7xl px-3 md:px-6 py-14 md:py-16 flex flex-col items-center justify-center">
+        <div className="relative w-fit max-w-4xl overflow-hidden rounded-2xl bg-[#08131f]/94 p-8 md:p-12 shadow-[0_0_30px_rgba(255,255,255,0.2),0_0_60px_rgba(255,255,255,0.1),inset_0_0_30px_rgba(255,255,255,0.05)] backdrop-blur-sm border border-white/10">
+          <div className="text-center">
             <h2 className="relative font-[var(--font-orbitron)] text-[clamp(1.65rem,4.2vw,2.85rem)] leading-tight text-white">
               <span>
                 {title}
@@ -28,7 +28,7 @@ export default function PlaceholderSection({
             </div>
           </div>
         </div>
-        <div className="mx-auto mt-8 max-w-5xl">
+        <div className="mt-8 w-full max-w-5xl flex justify-center">
           <HeroCubes variant="bright" />
         </div>
       </div>
