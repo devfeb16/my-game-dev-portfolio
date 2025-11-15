@@ -1,4 +1,3 @@
-"use client";
 import { useEffect, useState } from "react";
 import HeroBackground from "./HeroBackground";
 import HeroIntro, { DEFAULT_HEADLINE } from "./HeroIntro";
@@ -7,6 +6,7 @@ import HeroStats from "./HeroStats";
 import FloatingCodeSnippets from "./FloatingCodeSnippets";
 import PlaceholderSection from "./PlaceholderSection";
 import { useHeroAnimation } from "@/contexts/HeroAnimationContext";
+import { useLoader } from "@/contexts/LoaderContext";
 
 type HeroProps = {
   className?: string;
@@ -22,6 +22,7 @@ export default function Hero({ className, headline, subtitle }: HeroProps) {
   const [reduceMotion, setReduceMotion] = useState(false);
   const [detailsVisible, setDetailsVisible] = useState(false);
   const { setIsAnimating } = useHeroAnimation();
+  const { isLoaderComplete } = useLoader();
 
   const effectiveHeadline = headline ?? DEFAULT_HEADLINE;
 
@@ -52,6 +53,11 @@ export default function Hero({ className, headline, subtitle }: HeroProps) {
   }, []);
 
   useEffect(() => {
+    // Wait for loader to complete before starting hero animation
+    if (!isLoaderComplete) {
+      return;
+    }
+
     if (reduceMotion) {
       setStage("rest");
       setDisplayHeadline(effectiveHeadline);
@@ -73,7 +79,7 @@ export default function Hero({ className, headline, subtitle }: HeroProps) {
     }, 1000);
 
     return () => window.clearTimeout(showHeadlineTimer);
-  }, [reduceMotion, effectiveHeadline, setIsAnimating]);
+  }, [reduceMotion, effectiveHeadline, setIsAnimating, isLoaderComplete]);
 
   useEffect(() => {
     if (reduceMotion || stage !== "headline") {
