@@ -14,10 +14,10 @@ export default function App({ Component, pageProps }: AppProps) {
     <div className={`${orbitron.variable} ${inter.variable}`}>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Unity Game Developer Portfolio | Pixls + LLM/ML Projects</title>
+        <title>Unity Game Developer Portfolio | UnityDevs + LLM/ML Projects</title>
         <meta
           name="description"
-          content="Portfolio of a Unity Game Developer at Pixls with side projects in LLMs and ML fine-tuning."
+          content="Portfolio of a Unity Game Developer at UnityDev with side projects in LLMs and ML fine-tuning."
         />
       </Head>
       <div className="min-h-screen bg-[#0a0b0f] text-[var(--color-foreground)]">

@@ -160,8 +160,36 @@ body {
 }
 
 @keyframes blink-caret {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+  0%, 100% { 
+    opacity: 1; 
+    transform: translateZ(0);
+  }
+  50% { 
+    opacity: 0; 
+    transform: translateZ(0);
+  }
+}
+
+/* Ensure animations work on mobile browsers */
+@media screen and (max-width: 768px) {
+  .hero-typewriter {
+    /* Force reflow for better mobile compatibility */
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    perspective: 1000px;
+    -webkit-perspective: 1000px;
+  }
+  
+  .hero-typewriter::after {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+  
+  /* Ensure typewriter caret animation runs smoothly on mobile */
+  .hero-typewriter--active::after {
+    -webkit-animation: blink-caret 0.6s steps(1) infinite;
+    animation: blink-caret 0.6s steps(1) infinite;
+  }
 }
 
 /* staged reveal utilities */
@@ -180,6 +208,11 @@ body {
   display: inline;
   white-space: pre-wrap;
   word-break: break-word;
+  /* Optimize for mobile rendering */
+  will-change: contents;
+  transform: translateZ(0);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .hero-typewriter::after {
@@ -191,11 +224,17 @@ body {
   background: currentColor;
   opacity: 0;
   vertical-align: -.12em;
+  /* Optimize animation for mobile */
+  will-change: opacity;
+  transform: translateZ(0);
 }
 
 .hero-typewriter--active::after {
   opacity: 1;
   animation: blink-caret 0.6s steps(1) infinite;
+  /* Force hardware acceleration on mobile */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
 }
 
 .hero-typewriter--inactive::after {

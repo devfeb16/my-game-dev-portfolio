@@ -33,7 +33,9 @@ export default function HeroNavbar({ visible = false, className }: HeroNavbarPro
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
         <Link href="/" className="group font-bold tracking-wide text-neon-cyan">
-          <span className="font-[var(--font-orbitron)] text-xl">PIXLS.dev</span>
+          <span className="font-[var(--font-orbitron)] text-xl">
+            Unity<span className="text-white">Devs</span>
+          </span>
           <span className="ml-2 inline-block h-1 w-6 rounded-full bg-neon-cyan/80 group-hover:w-10 transition-all"></span>
         </Link>
         <nav className="hidden gap-8 md:flex">

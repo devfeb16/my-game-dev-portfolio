@@ -41,7 +41,7 @@ export default function FeaturedProject() {
             </div>
             
             <p className="text-base leading-relaxed text-zinc-300">
-              Procedurally generated tracks, dynamic difficulty, and optimized GPU particles designed for mobile performance at Pixls.
+              Procedurally generated tracks, dynamic difficulty, and optimized GPU particles designed for mobile performance at UnityDev.
             </p>
             
             {/* Tech Stack */}

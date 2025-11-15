@@ -25,17 +25,25 @@ export default function Hero({ className, headline, subtitle }: HeroProps) {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
+    
+    // Check for reduced motion preference
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const handleChange = (event: MediaQueryListEvent) => setReduceMotion(event.matches);
+    const handleChange = (event: MediaQueryListEvent | MediaQueryList) => {
+      const matches = typeof event === "object" && "matches" in event 
+        ? event.matches 
+        : (event as MediaQueryListEvent).matches;
+      setReduceMotion(matches);
+    };
 
+    // Set initial value - with mobile compatibility check
     setReduceMotion(mediaQuery.matches);
 
+    // Use modern API with fallback for older mobile browsers
     if (typeof mediaQuery.addEventListener === "function") {
       mediaQuery.addEventListener("change", handleChange);
       return () => mediaQuery.removeEventListener("change", handleChange);
-    }
-
-    if (typeof mediaQuery.addListener === "function") {
+    } else if (typeof mediaQuery.addListener === "function") {
+      // Fallback for older browsers (iOS Safari < 14)
       mediaQuery.addListener(handleChange);
       return () => mediaQuery.removeListener(handleChange);
     }
@@ -53,7 +61,12 @@ export default function Hero({ className, headline, subtitle }: HeroProps) {
     setDisplayHeadline("");
     setDetailsVisible(false);
 
-    const showHeadlineTimer = window.setTimeout(() => setStage("headline"), 1000);
+    // Add a small delay to ensure DOM is ready, especially on mobile
+    // This helps with mobile browsers that may throttle timers during initial load
+    const showHeadlineTimer = window.setTimeout(() => {
+      // Double-check that we're still in background stage (component not unmounted)
+      setStage((prevStage) => prevStage === "background" ? "headline" : prevStage);
+    }, 1000);
 
     return () => window.clearTimeout(showHeadlineTimer);
   }, [reduceMotion, effectiveHeadline]);
@@ -66,21 +79,57 @@ export default function Hero({ className, headline, subtitle }: HeroProps) {
     let index = 0;
     const characters = Array.from(effectiveHeadline);
     let finishTimer: number | undefined;
+    let animationFrameId: number | undefined;
+    const frameDelay = 55; // ms per character
+    let startTime: number | null = null;
 
     setDisplayHeadline("");
 
-    const intervalId = window.setInterval(() => {
-      index += 1;
-      setDisplayHeadline(characters.slice(0, index).join(""));
-
-      if (index >= characters.length) {
-        window.clearInterval(intervalId);
-        finishTimer = window.setTimeout(() => setStage("rest"), 220);
+    const animate = (currentTime: number) => {
+      if (startTime === null) {
+        startTime = currentTime;
       }
-    }, 55);
+
+      const elapsed = currentTime - startTime;
+      const targetIndex = Math.min(
+        Math.floor(elapsed / frameDelay) + 1,
+        characters.length
+      );
+
+      if (targetIndex > index) {
+        index = targetIndex;
+        setDisplayHeadline(characters.slice(0, index).join(""));
+
+        if (index >= characters.length) {
+          if (animationFrameId !== undefined) {
+            cancelAnimationFrame(animationFrameId);
+          }
+          finishTimer = window.setTimeout(() => setStage("rest"), 220);
+          return;
+        }
+      }
+
+      // Continue animation if not complete
+      if (index < characters.length) {
+        animationFrameId = requestAnimationFrame(animate);
+      }
+    };
+
+    // Use requestAnimationFrame for better mobile compatibility
+    // Add a small delay to ensure the page is ready on mobile devices
+    // This delay helps mobile browsers that may throttle during initial page load
+    const startDelay = window.setTimeout(() => {
+      // Start animation - we're already in headline stage (checked in useEffect condition)
+      animationFrameId = requestAnimationFrame(animate);
+    }, 50);
 
     return () => {
-      window.clearInterval(intervalId);
+      if (startDelay !== undefined) {
+        window.clearTimeout(startDelay);
+      }
+      if (animationFrameId !== undefined) {
+        cancelAnimationFrame(animationFrameId);
+      }
       if (typeof finishTimer !== "undefined") {
         window.clearTimeout(finishTimer);
       }

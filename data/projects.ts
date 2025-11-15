@@ -20,7 +20,7 @@ export const projects: Project[] = [
     link: "/projects",
   },
   {
-    title: "Pixls Live Ops",
+    title: "UnityDev Live Ops",
     year: 2024,
     role: "Mobile Game Dev Specialist",
     tools: ["Unity", "C#", "Analytics"],
