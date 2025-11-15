@@ -7,7 +7,6 @@ export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
-  const [role, setRole] = useState('');
   const [isRegistering, setIsRegistering] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -27,7 +26,7 @@ export default function LoginPage() {
 
     try {
       if (isRegistering) {
-        await register(email, password, name, role || undefined);
+        await register(email, password, name);
       } else {
         await login(email, password);
       }
@@ -77,23 +76,6 @@ export default function LoginPage() {
                       className="w-full px-4 py-3 bg-[#0a0b0f] border border-[#2a2b3e] rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
                       placeholder="Enter your name"
                     />
-                  </div>
-                  <div>
-                    <label htmlFor="role" className="block text-sm font-medium text-gray-300 mb-2">
-                      Role (Optional)
-                    </label>
-                    <select
-                      id="role"
-                      value={role}
-                      onChange={(e) => setRole(e.target.value)}
-                      className="w-full px-4 py-3 bg-[#0a0b0f] border border-[#2a2b3e] rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
-                    >
-                      <option value="">Select role (default: user)</option>
-                      <option value="admin">Admin</option>
-                      <option value="marketing">Marketing</option>
-                      <option value="blogger">Blogger</option>
-                      <option value="user">User</option>
-                    </select>
                   </div>
                 </>
               )}

@@ -10,7 +10,7 @@ export default async function handler(req, res) {
   try {
     await connectDB();
 
-    const { email, password, name, role } = req.body;
+    const { email, password, name } = req.body;
 
     if (!email || !password || !name) {
       return res.status(400).json({ error: 'Email, password, and name are required' });
@@ -23,15 +23,12 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'User already exists' });
     }
 
-    // Validate role if provided
-    const userRole = role && Object.values(UserRole).includes(role) ? role : UserRole.USER;
-
-    // Create user
+    // Create user - always default to USER role
     const user = await User.create({
       email,
       password,
       name,
-      role: userRole,
+      role: UserRole.USER,
     });
 
     // Generate token
