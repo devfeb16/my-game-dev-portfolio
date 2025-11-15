@@ -33,8 +33,10 @@ export default function Header() {
         </Link>
         <nav className="hidden gap-8 md:flex">
           {navItems.map((item) => {
-            const isActive = router.pathname === item.href || 
-              (item.href !== "/" && router.pathname.startsWith(item.href));
+            const isActive = 
+              item.href === "/" 
+                ? router.pathname === "/"
+                : router.pathname === item.href || router.pathname.startsWith(item.href + "/");
             return (
               <Link
                 key={item.href}
@@ -63,16 +65,26 @@ export default function Header() {
       {open && (
         <div className="md:hidden border-t border-[var(--color-border)]/30 bg-[#0a0b10]">
           <div className="mx-auto max-w-7xl px-6 py-4 flex flex-col gap-3">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setOpen(false)}
-                className="text-sm uppercase tracking-wider text-zinc-300 hover:text-neon-cyan"
-              >
-                {item.label}
-              </Link>
-            ))}
+            {navItems.map((item) => {
+              const isActive = 
+                item.href === "/" 
+                  ? router.pathname === "/"
+                  : router.pathname === item.href || router.pathname.startsWith(item.href + "/");
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setOpen(false)}
+                  className={`text-sm uppercase tracking-wider transition-colors ${
+                    isActive
+                      ? "text-neon-cyan font-semibold border-l-4 border-neon-cyan pl-2"
+                      : "text-zinc-300 hover:text-neon-cyan"
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
           </div>
         </div>
       )}
