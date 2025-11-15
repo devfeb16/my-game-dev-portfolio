@@ -12,9 +12,10 @@ export default function Document() {
         />
         {/* Favicon: Custom Game Development themed SVG */}
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-        <link rel="alternate icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="apple-touch-icon" href="/favicon.svg" />
         <meta name="theme-color" content="#0a0b0f" />
+        <meta name="msapplication-TileColor" content="#0a0b0f" />
       </Head>
       <body className="antialiased">
         <Main />
