@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import styles from "./FloatingCodeSnippets.module.css";
 
 const codeSnippets = [
   "void Update() { ... }",
@@ -10,74 +11,97 @@ const codeSnippets = [
   "PlayerPrefs.Save()",
 ];
 
-const animations = [
-  { x: 20, y: -30, r: 5 },
-  { x: -25, y: 25, r: -5 },
-  { x: 15, y: 20, r: 3 },
-  { x: -20, y: -20, r: -3 },
-  { x: 25, y: 15, r: 4 },
-  { x: -15, y: 25, r: -4 },
+// Snippet configurations - distributed across different areas of hero section
+// Each snippet has a unique starting position and movement pattern
+const snippetConfigs = [
+  {
+    // Top-left area - Figure-8 pattern
+    startX: 10,
+    startY: 15,
+    duration: 28,
+    delay: 0,
+  },
+  {
+    // Top-right area - Zigzag pattern
+    startX: 90,
+    startY: 20,
+    duration: 32,
+    delay: 2,
+  },
+  {
+    // Bottom-left area - Spiral pattern
+    startX: 12,
+    startY: 75,
+    duration: 35,
+    delay: 4,
+  },
+  {
+    // Bottom-right area - Wave pattern
+    startX: 88,
+    startY: 80,
+    duration: 30,
+    delay: 1.5,
+  },
+  {
+    // Top-center area - Diagonal sweep
+    startX: 50,
+    startY: 12,
+    duration: 38,
+    delay: 3,
+  },
+  {
+    // Bottom-center area - Random wander
+    startX: 50,
+    startY: 85,
+    duration: 40,
+    delay: 5,
+  },
 ];
 
 export default function FloatingCodeSnippets() {
   const [snippets, setSnippets] = useState([]);
 
+  // Animation class mapping
+  const animationClasses = [
+    styles.floatPath1,
+    styles.floatPath2,
+    styles.floatPath3,
+    styles.floatPath4,
+    styles.floatPath5,
+    styles.floatPath6,
+  ];
+
   useEffect(() => {
     const newSnippets = codeSnippets.map((text, i) => ({
-      id: Math.random() * 100,
+      id: `snippet-${i}`,
       text: text,
-      x: animations[i] ? animations[i].x : Math.random() * 100,
-      y: animations[i] ? animations[i].y : Math.random() * 100,
-      delay: Math.random() * 3,
-      animId: i,
+      config: snippetConfigs[i] || snippetConfigs[0],
     }));
     setSnippets(newSnippets);
   }, []);
 
   return (
-    <>
-      <style dangerouslySetInnerHTML={{ __html: `
-        @keyframes float-code-0 {
-          0%, 100% { transform(0, 0) rotate(0deg); opacity: 0.3; }
-          50% { transform(20px, -30px) rotate(5deg); opacity: 0.6; }
-        }
-        @keyframes float-code-1 {
-          0%, 100% { transform(0, 0) rotate(0deg); opacity: 0.2; }
-          50% { transform(-25px, 25px) rotate(-5deg); opacity: 0.5; }
-        }
-        @keyframes float-code-2 {
-          0%, 100% { transform(0, 0) rotate(0deg); opacity: 0.25; }
-          50% { transform(15px, 20px) rotate(3deg); opacity: 0.55; }
-        }
-        @keyframes float-code-3 {
-          0%, 100% { transform(0, 0) rotate(0deg); opacity: 0.2; }
-          50% { transform(-20px, -20px) rotate(-3deg); opacity: 0.5; }
-        }
-        @keyframes float-code-4 {
-          0%, 100% { transform(0, 0) rotate(0deg); opacity: 0.3; }
-          50% { transform(25px, 15px) rotate(4deg); opacity: 0.6; }
-        }
-        @keyframes float-code-5 {
-          0%, 100% { transform(0, 0) rotate(0deg); opacity: 0.25; }
-          50% { transform(-15px, 25px) rotate(-4deg); opacity: 0.55; }
-        }
-      `}} />
-      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-        {snippets.map((s) => (
+    <div className="pointer-events-none absolute inset-0 overflow-hidden z-[2]" aria-hidden="true">
+      {snippets.map((s, index) => {
+        const config = s.config;
+        const animationClass = animationClasses[index] || animationClasses[0];
+        return (
           <div
             key={s.id}
-            className="absolute text-[10px] font-mono text-neon-cyan/30 select-none"
+            className={`${styles.codeSnippet} absolute text-[10px] md:text-[11px] font-mono text-neon-cyan/30 select-none ${animationClass}`}
             style={{
-              left: `${s.x}%`,
-              top: `${s.y}%`,
-              animationDelay: `${s.delay}s`,
-              animation: `float-code-${s.animId} ${8 + Math.random() * 4}s ease-in-out infinite`,
+              left: `${config.startX}%`,
+              top: `${config.startY}%`,
+              animationDelay: `${config.delay}s`,
+              willChange: 'transform, opacity',
             }}
           >
-            {s.text}
+            <span className={`${styles.codeSnippetBox} relative inline-block px-2.5 py-1.5 rounded-md`}>
+              {s.text}
+            </span>
           </div>
-        ))}
-      </div>
-    </>
+        );
+      })}
+    </div>
   );
 }

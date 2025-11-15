@@ -1,0 +1,313 @@
+/* Floating Code Snippets Animations and Styles */
+
+/* Base snippet styling */
+.codeSnippet {
+  text-shadow: 0 0 8px rgba(34, 211, 238, 0.3), 0 0 15px rgba(34, 211, 238, 0.2);
+  filter: drop-shadow(0 0 6px rgba(34, 211, 238, 0.25));
+  transition: all 0.3s ease;
+}
+
+.codeSnippet:hover {
+  opacity: 0.5 !important;
+  text-shadow: 0 0 12px rgba(34, 211, 238, 0.5), 0 0 25px rgba(34, 211, 238, 0.35);
+  filter: drop-shadow(0 0 10px rgba(34, 211, 238, 0.4));
+  transform: scale(1.1);
+}
+
+.codeSnippetBox {
+  background: linear-gradient(135deg, rgba(11, 15, 18, 0.5) 0%, rgba(11, 15, 18, 0.3) 100%);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(34, 211, 238, 0.15);
+  box-shadow: 0 4px 15px rgba(34, 211, 238, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.codeSnippet:hover .codeSnippetBox {
+  border-color: rgba(34, 211, 238, 0.3);
+  box-shadow: 0 6px 20px rgba(34, 211, 238, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Irregular movement patterns - not circular orbits */
+
+/* Path 1: Figure-8 pattern (top-left area) */
+@keyframes floatPath1 {
+  0% {
+    transform: translate(0%, 0%) rotate(0deg);
+    opacity: 0.1;
+  }
+  12.5% {
+    transform: translate(15%, -10%) rotate(5deg);
+    opacity: 0.2;
+  }
+  25% {
+    transform: translate(25%, 0%) rotate(0deg);
+    opacity: 0.25;
+  }
+  37.5% {
+    transform: translate(15%, 10%) rotate(-5deg);
+    opacity: 0.2;
+  }
+  50% {
+    transform: translate(0%, 0%) rotate(0deg);
+    opacity: 0.1;
+  }
+  62.5% {
+    transform: translate(-15%, -10%) rotate(5deg);
+    opacity: 0.2;
+  }
+  75% {
+    transform: translate(-25%, 0%) rotate(0deg);
+    opacity: 0.25;
+  }
+  87.5% {
+    transform: translate(-15%, 10%) rotate(-5deg);
+    opacity: 0.2;
+  }
+  100% {
+    transform: translate(0%, 0%) rotate(0deg);
+    opacity: 0.1;
+  }
+}
+
+/* Path 2: Zigzag pattern (top-right area) */
+@keyframes floatPath2 {
+  0% {
+    transform: translate(0%, 0%) rotate(0deg);
+    opacity: 0.15;
+  }
+  20% {
+    transform: translate(20%, -15%) rotate(10deg);
+    opacity: 0.25;
+  }
+  40% {
+    transform: translate(10%, 20%) rotate(-10deg);
+    opacity: 0.2;
+  }
+  60% {
+    transform: translate(-10%, 15%) rotate(8deg);
+    opacity: 0.25;
+  }
+  80% {
+    transform: translate(-20%, -10%) rotate(-8deg);
+    opacity: 0.2;
+  }
+  100% {
+    transform: translate(0%, 0%) rotate(0deg);
+    opacity: 0.15;
+  }
+}
+
+/* Path 3: Spiral outward pattern (bottom-left area) */
+@keyframes floatPath3 {
+  0% {
+    transform: translate(0%, 0%) rotate(0deg) scale(0.9);
+    opacity: 0.2;
+  }
+  25% {
+    transform: translate(30%, -20%) rotate(90deg) scale(1);
+    opacity: 0.15;
+  }
+  50% {
+    transform: translate(20%, 30%) rotate(180deg) scale(1.1);
+    opacity: 0.25;
+  }
+  75% {
+    transform: translate(-30%, 20%) rotate(270deg) scale(1);
+    opacity: 0.15;
+  }
+  100% {
+    transform: translate(0%, 0%) rotate(360deg) scale(0.9);
+    opacity: 0.2;
+  }
+}
+
+/* Path 4: Wave pattern (bottom-right area) */
+@keyframes floatPath4 {
+  0% {
+    transform: translate(0%, 0%) rotate(0deg);
+    opacity: 0.1;
+  }
+  16.66% {
+    transform: translate(25%, -12%) rotate(-5deg);
+    opacity: 0.2;
+  }
+  33.33% {
+    transform: translate(15%, 25%) rotate(5deg);
+    opacity: 0.25;
+  }
+  50% {
+    transform: translate(-15%, 20%) rotate(-5deg);
+    opacity: 0.2;
+  }
+  66.66% {
+    transform: translate(-25%, -15%) rotate(5deg);
+    opacity: 0.25;
+  }
+  83.33% {
+    transform: translate(-10%, 10%) rotate(-3deg);
+    opacity: 0.2;
+  }
+  100% {
+    transform: translate(0%, 0%) rotate(0deg);
+    opacity: 0.1;
+  }
+}
+
+/* Path 5: Diagonal sweep pattern (top-center area) */
+@keyframes floatPath5 {
+  0% {
+    transform: translate(0%, 0%) rotate(0deg);
+    opacity: 0.15;
+  }
+  25% {
+    transform: translate(35%, -25%) rotate(15deg);
+    opacity: 0.25;
+  }
+  50% {
+    transform: translate(-35%, 25%) rotate(-15deg);
+    opacity: 0.2;
+  }
+  75% {
+    transform: translate(20%, 30%) rotate(10deg);
+    opacity: 0.25;
+  }
+  100% {
+    transform: translate(0%, 0%) rotate(0deg);
+    opacity: 0.15;
+  }
+}
+
+/* Path 6: Random wander pattern (bottom-center area) */
+@keyframes floatPath6 {
+  0% {
+    transform: translate(0%, 0%) rotate(0deg);
+    opacity: 0.1;
+  }
+  14.28% {
+    transform: translate(-30%, -20%) rotate(-12deg);
+    opacity: 0.2;
+  }
+  28.57% {
+    transform: translate(25%, 15%) rotate(10deg);
+    opacity: 0.25;
+  }
+  42.85% {
+    transform: translate(15%, -30%) rotate(-8deg);
+    opacity: 0.15;
+  }
+  57.14% {
+    transform: translate(-20%, 25%) rotate(12deg);
+    opacity: 0.25;
+  }
+  71.42% {
+    transform: translate(30%, 10%) rotate(-10deg);
+    opacity: 0.2;
+  }
+  85.71% {
+    transform: translate(-15%, -15%) rotate(8deg);
+    opacity: 0.2;
+  }
+  100% {
+    transform: translate(0%, 0%) rotate(0deg);
+    opacity: 0.1;
+  }
+}
+
+/* Fade in/out animations for hide and reveal */
+@keyframes fadeInOut1 {
+  0%, 100% {
+    opacity: 0.1;
+  }
+  20%, 80% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 0.15;
+  }
+}
+
+@keyframes fadeInOut2 {
+  0%, 100% {
+    opacity: 0.15;
+  }
+  30%, 70% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 0.1;
+  }
+}
+
+@keyframes fadeInOut3 {
+  0%, 100% {
+    opacity: 0.1;
+  }
+  25%, 75% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+
+@keyframes fadeInOut4 {
+  0%, 100% {
+    opacity: 0.15;
+  }
+  40%, 60% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 0.1;
+  }
+}
+
+@keyframes fadeInOut5 {
+  0%, 100% {
+    opacity: 0.1;
+  }
+  35%, 65% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 0.15;
+  }
+}
+
+@keyframes fadeInOut6 {
+  0%, 100% {
+    opacity: 0.15;
+  }
+  45%, 55% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 0.1;
+  }
+}
+
+/* Animation classes */
+.floatPath1 {
+  animation: floatPath1 28s ease-in-out infinite, fadeInOut1 22.4s ease-in-out infinite;
+}
+
+.floatPath2 {
+  animation: floatPath2 32s ease-in-out infinite, fadeInOut2 25.6s ease-in-out infinite;
+}
+
+.floatPath3 {
+  animation: floatPath3 35s ease-in-out infinite, fadeInOut3 28s ease-in-out infinite;
+}
+
+.floatPath4 {
+  animation: floatPath4 30s ease-in-out infinite, fadeInOut4 24s ease-in-out infinite;
+}
+
+.floatPath5 {
+  animation: floatPath5 38s ease-in-out infinite, fadeInOut5 30.4s ease-in-out infinite;
+}
+
+.floatPath6 {
+  animation: floatPath6 40s ease-in-out infinite, fadeInOut6 32s ease-in-out infinite;
+}
+
