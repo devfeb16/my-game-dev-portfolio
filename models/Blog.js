@@ -76,7 +76,7 @@ BlogSchema.index({ author: 1 });
 BlogSchema.index({ published: 1, publishedAt: -1 });
 BlogSchema.index({ tags: 1 });
 
-const Blog = mongoose.models.Blog || mongoose.model('Blog', BlogSchema);
+const Blog = mongoose.models?.Blog || mongoose.model('Blog', BlogSchema);
 
 export default Blog;
 
