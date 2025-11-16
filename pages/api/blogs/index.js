@@ -1,5 +1,5 @@
 import connectDB from '@/lib/mongodb';
-import Blog from '@/models/Blog';
+import Blog, { BlogStatus } from '@/models/Blog';
 import { requireAuth } from '@/middleware/auth';
 import { UserRole } from '@/models/User';
 
@@ -8,20 +8,24 @@ export default requireAuth(async (req, res, user) => {
 
   if (req.method === 'GET') {
     try {
-      const { published, page = '1', limit = '10', author, tag } = req.query;
+      const { status, published, page = '1', limit = '10', author, tag, category } = req.query;
 
       const query = {};
 
       // Role-based filtering
-      if (user.role !== UserRole.ADMIN) {
-        // Non-admins can only see published blogs or their own
+      if (user.role === UserRole.ADMIN) {
+        // Admins can see all blogs, filter by status if provided
+        if (status) {
+          query.status = status;
+        } else if (published !== undefined) {
+          query.published = published === 'true';
+        }
+      } else {
+        // Non-admins can only see published blogs or their own unpublished blogs
         query.$or = [
-          { published: true },
+          { published: true, status: BlogStatus.PUBLISHED },
           { author: user.userId },
         ];
-      } else if (published !== undefined) {
-        // Admins can filter by published status
-        query.published = published === 'true';
       }
 
       if (author) {
@@ -30,6 +34,10 @@ export default requireAuth(async (req, res, user) => {
 
       if (tag) {
         query.tags = { $in: [tag] };
+      }
+
+      if (category) {
+        query.category = category;
       }
 
       const pageNum = parseInt(page, 10);
@@ -63,28 +71,94 @@ export default requireAuth(async (req, res, user) => {
 
   if (req.method === 'POST') {
     try {
-      const { title, content, excerpt, slug, featuredImage, tags, published } = req.body;
+      const {
+        title,
+        content,
+        excerpt,
+        slug,
+        featuredImage,
+        featuredImageAlt,
+        ogImage,
+        ogImageAlt,
+        metaTitle,
+        metaDescription,
+        metaKeywords,
+        focusKeyword,
+        ogTitle,
+        ogDescription,
+        ogType,
+        twitterCard,
+        twitterTitle,
+        twitterDescription,
+        twitterImage,
+        category,
+        tags,
+        canonicalUrl,
+        schemaType,
+        relatedPosts,
+        status,
+      } = req.body;
 
       if (!title || !content) {
         return res.status(400).json({ error: 'Title and content are required' });
       }
 
-      const blog = await Blog.create({
+      // Determine initial status
+      let initialStatus = status || BlogStatus.DRAFT;
+      let shouldPublish = false;
+
+      // Only admins can directly publish or set status
+      if (user.role === UserRole.ADMIN) {
+        if (status === BlogStatus.PUBLISHED) {
+          shouldPublish = true;
+        }
+      } else {
+        // Non-admins: if they try to publish, set to pending_review
+        if (status === BlogStatus.PUBLISHED || req.body.published) {
+          initialStatus = BlogStatus.PENDING_REVIEW;
+        }
+      }
+
+      const blogData = {
         title,
         content,
         excerpt,
         slug: slug || title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''),
         featuredImage,
+        featuredImageAlt,
+        ogImage,
+        ogImageAlt,
+        metaTitle,
+        metaDescription,
+        metaKeywords: metaKeywords || [],
+        focusKeyword,
+        ogTitle,
+        ogDescription,
+        ogType: ogType || 'article',
+        twitterCard: twitterCard || 'summary_large_image',
+        twitterTitle,
+        twitterDescription,
+        twitterImage,
+        category,
         tags: tags || [],
-        published: published || false,
+        canonicalUrl,
+        schemaType: schemaType || 'Article',
+        relatedPosts: relatedPosts || [],
+        status: initialStatus,
+        published: shouldPublish,
         author: user.userId,
-      });
+      };
+
+      const blog = await Blog.create(blogData);
 
       const populatedBlog = await Blog.findById(blog._id).populate('author', 'name email');
 
       return res.status(201).json({
         success: true,
         blog: populatedBlog,
+        message: initialStatus === BlogStatus.PENDING_REVIEW
+          ? 'Blog submitted for review. It will be published after admin approval.'
+          : 'Blog created successfully.',
       });
     } catch (error) {
       console.error('Create blog error:', error);

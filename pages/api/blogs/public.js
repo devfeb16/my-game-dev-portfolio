@@ -1,5 +1,5 @@
 import connectDB from '@/lib/mongodb';
-import Blog from '@/models/Blog';
+import Blog, { BlogStatus } from '@/models/Blog';
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
@@ -9,14 +9,44 @@ export default async function handler(req, res) {
   await connectDB();
 
   try {
-    const { page = '1', limit = '10', tag } = req.query;
+    const { page = '1', limit = '10', tag, category, slug } = req.query;
 
+    // If slug is provided, return single blog
+    if (slug) {
+      const blog = await Blog.findOne({
+        slug,
+        status: BlogStatus.PUBLISHED,
+        published: true,
+      })
+        .populate('author', 'name email')
+        .populate('relatedPosts', 'title slug featuredImage excerpt')
+        .lean();
+
+      if (!blog) {
+        return res.status(404).json({ error: 'Blog not found' });
+      }
+
+      // Increment views
+      await Blog.findByIdAndUpdate(blog._id, { $inc: { views: 1 } });
+
+      return res.status(200).json({
+        success: true,
+        blog,
+      });
+    }
+
+    // Otherwise, return paginated list
     const query = {
+      status: BlogStatus.PUBLISHED,
       published: true, // Only published blogs for public access
     };
 
     if (tag) {
       query.tags = { $in: [tag] };
+    }
+
+    if (category) {
+      query.category = category;
     }
 
     const pageNum = parseInt(page, 10);
@@ -25,6 +55,7 @@ export default async function handler(req, res) {
 
     const blogs = await Blog.find(query)
       .populate('author', 'name email')
+      .select('-content') // Don't send full content in list view
       .sort({ publishedAt: -1, createdAt: -1 })
       .skip(skip)
       .limit(limitNum)
