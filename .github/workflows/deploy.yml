@@ -17,10 +17,10 @@ jobs:
       - name: Run remote deploy script via SSH
         uses: appleboy/ssh-action@v1
         with:
-          host: ${{ secrets.DEPLOY_HOST }}       # Oracle public IP
-          username: ${{ secrets.DEPLOY_USER }}   # e.g., ubuntu
-          key: ${{ secrets.DEPLOY_KEY }}         # Your private key stored in GitHub secrets
-          port: ${{ secrets.DEPLOY_PORT }}       # SSH port (default 22)
+          host: ${{ secrets.DROPLET_HOST }}       # <-- use the correct secret name
+          username: ${{ secrets.DROPLET_USER }}   # matches your secret
+          key: ${{ secrets.DROPLET_SSH_KEY }}     # matches your secret
+          port: ${{ secrets.DEPLOY_PORT || '22' }}
           script: |
             set -euo pipefail
 
