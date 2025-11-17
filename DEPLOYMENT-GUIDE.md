@@ -1,3 +1,97 @@
+
+
+### **What’s happening**
+
+Your `iptables` rules show:
+
+```
+Chain INPUT (policy ACCEPT 0 packets, 0 bytes)
+...
+185  10092 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            state NEW tcp dpt:22
+...
+REJECT     all  --  *      *       0.0.0.0/0            0.0.0.0/0            reject-with icmp-host-prohibited
+```
+
+* You have **REJECT rules at the end** of `INPUT` and `FORWARD` chains.
+* These **reject everything else** by default.
+* Even though Nginx is listening on 0.0.0.0:80, **incoming TCP packets on port 80 are being blocked by iptables**, causing the `No route to host` error.
+
+This explains why **everything else inside the VM looks fine** (PM2, Nginx, listening on 0.0.0.0) but the external IP keeps loading.
+
+---
+
+### **How to fix**
+
+You need to **allow HTTP (80) and HTTPS (443) in iptables** and make it persistent:
+
+```bash
+# Allow HTTP
+sudo iptables -I INPUT -p tcp --dport 80 -j ACCEPT
+
+# Allow HTTPS
+sudo iptables -I INPUT -p tcp --dport 443 -j ACCEPT
+
+# Optional: allow all related/established connections
+sudo iptables -I INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+# Drop everything else (optional, if you want default policy)
+sudo iptables -P INPUT ACCEPT
+sudo iptables -P FORWARD ACCEPT
+sudo iptables -P OUTPUT ACCEPT
+```
+
+---
+
+### **Save rules permanently**
+
+On Ubuntu:
+
+```bash
+sudo apt install iptables-persistent
+sudo netfilter-persistent save
+sudo netfilter-persistent reload
+```
+
+* This will keep the rules after reboot.
+
+---
+
+### ✅ **After this**
+
+1. Test from your **local PC / browser**:
+
+```
+http://161.118.185.86
+```
+
+2. Nginx should now serve your NestJS app.
+3. You can then configure **Certbot for HTTPS** once this works.
+
+---
+
+💡 **Summary:**
+
+* The server itself was fine (Nginx + PM2)
+* **iptables was blocking all incoming HTTP/HTTPS traffic**
+* Adding rules to allow 80/443 fixes the “No route to host” problem
+
+---
+
+If you want, I can write a **full one-shot command set** that:
+
+1. Opens 80/443
+2. Saves iptables permanently
+3. Reloads Nginx
+4. Tests the public IP
+
+…so your NestJS project is immediately accessible.
+
+
+
+
+
+
+
 # Deployment Guide - Next.js on DigitalOcean Ubuntu Droplet
 
 This guide will help you properly set up your Next.js application on a DigitalOcean Ubuntu droplet with Nginx as a reverse proxy.
