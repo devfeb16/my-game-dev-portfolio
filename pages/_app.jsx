@@ -18,6 +18,7 @@ const DASHBOARD_PAGES = ['/dashboard'];
 function AppContent({ Component, pageProps }) {
   const router = useRouter();
   const isDashboardPage = router.pathname.startsWith('/dashboard');
+  const isHomePage = router.pathname === '/';
 
   // Don't show header/footer only on dashboard pages
   const showLayout = !isDashboardPage;
@@ -41,7 +42,8 @@ function AppContent({ Component, pageProps }) {
         <HeroAnimationProvider>
           {showLayout ? (
             <div className="min-h-screen bg-[#0a0b0f] text-[var(--color-foreground)]">
-              <LoaderOverlay />
+              {/* Only show loader on homepage */}
+              {isHomePage && <LoaderOverlay />}
               <Header />
               <main className="pt-16">
                 <Component {...pageProps} />
