@@ -13,6 +13,12 @@ MONGODB_URI=mongodb://localhost:27017/my-game-dev-portfolio
 # JWT Secret for authentication (use a strong random string in production)
 JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
 
+# Admin User Credentials (optional - defaults provided)
+# The admin user is automatically created on first database connection
+ADMIN_EMAIL=admin@UnityDevs.com
+ADMIN_PASSWORD=temp123
+ADMIN_NAME=Admin User
+
 # Optional: NextAuth configuration
 NEXTAUTH_URL=http://localhost:3000
 NEXTAUTH_SECRET=your-nextauth-secret-key-change-this
@@ -73,12 +79,32 @@ The system supports the following user roles:
 1. Ensure MongoDB is running locally or update `MONGODB_URI` with your connection string
 2. Create `.env.local` file with the environment variables
 3. Install dependencies: `npm install`
-4. **Initialize the default admin user** (choose one method):
-   - **Option A**: Run the seed script: `npm run seed-admin`
-   - **Option B**: Call the API endpoint: `POST /api/admin/init-admin`
-   - **Option C**: Use the ensure-admin endpoint to create/reset: `POST /api/admin/ensure-admin`
-5. Run the development server: `npm run dev`
+4. Run the development server: `npm run dev`
+5. **The admin user is automatically created** on first database connection - no manual setup needed!
 6. Navigate to `/login` to login with admin credentials
+
+### Automatic Admin Initialization
+
+The admin user is **automatically created** when the application first connects to the database. You don't need to run any scripts or call any endpoints manually.
+
+**Default Admin Credentials:**
+- **Email:** `admin@UnityDevs.com` (or set `ADMIN_EMAIL` in `.env.local`)
+- **Password:** `temp123` (or set `ADMIN_PASSWORD` in `.env.local`)
+- **Name:** `Admin User` (or set `ADMIN_NAME` in `.env.local`)
+
+**To customize admin credentials**, add these to your `.env.local`:
+```env
+ADMIN_EMAIL=admin@yourdomain.com
+ADMIN_PASSWORD=your-secure-password
+ADMIN_NAME=Your Admin Name
+```
+
+### Manual Admin Setup (Optional)
+
+If you need to manually create or reset the admin user:
+- **Option A**: Run the seed script: `npm run seed-admin`
+- **Option B**: Call the API endpoint: `POST /api/admin/init-admin`
+- **Option C**: Use the ensure-admin endpoint: `POST /api/admin/ensure-admin`
 
 ## Default Admin Credentials
 

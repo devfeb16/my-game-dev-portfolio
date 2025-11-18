@@ -11,9 +11,10 @@ export default async function handler(req, res) {
   try {
     await connectDB();
 
-    const adminEmail = 'admin@UnityDevs.com';
-    const adminPassword = 'temp123';
-    const adminName = 'Admin User';
+    // Get admin credentials from environment variables (with fallback defaults)
+    const adminEmail = process.env.ADMIN_EMAIL || 'admin@UnityDevs.com';
+    const adminPassword = process.env.ADMIN_PASSWORD || 'temp123';
+    const adminName = process.env.ADMIN_NAME || 'Admin User';
 
     // Check if admin user exists
     let adminUser = await User.findOne({ email: adminEmail.toLowerCase() }).select('+password');
