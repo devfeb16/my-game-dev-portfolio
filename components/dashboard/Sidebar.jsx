@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { useAuth } from '@/contexts/AuthContext';
-import { UserRole } from '@/models/User';
+import { UserRole } from '@/lib/constants';
 import { FiHome, FiFileText, FiUsers, FiSettings, FiBarChart2, FiEdit3, FiLogOut } from 'react-icons/fi';
 
 
@@ -28,6 +28,12 @@ export default function Sidebar({ activeView, onViewChange }) {
       label: 'Create Blog',
       icon: <FiEdit3 className="w-5 h-5" />,
       roles: [UserRole.ADMIN, UserRole.BLOGGER],
+    },
+    {
+      id: 'blog-management',
+      label: 'Blog Management',
+      icon: <FiFileText className="w-5 h-5" />,
+      roles: [UserRole.ADMIN, UserRole.MARKETING, UserRole.BLOGGER, UserRole.USER],
     },
     {
       id: 'analytics',

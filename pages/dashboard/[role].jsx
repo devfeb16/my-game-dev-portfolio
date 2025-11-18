@@ -5,6 +5,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import Sidebar from '@/components/dashboard/Sidebar';
 import DashboardOverview from '@/components/dashboard/DashboardOverview';
 import CreateBlog from '@/components/dashboard/CreateBlog';
+import BlogManagement from '@/components/dashboard/BlogManagement';
 import Analytics from '@/components/dashboard/Analytics';
 import Users from '@/components/dashboard/Users';
 import Settings from '@/components/dashboard/Settings';
@@ -52,6 +53,8 @@ export default function Dashboard() {
         return <DashboardOverview />;
       case 'create-blog':
         return <CreateBlog />;
+      case 'blog-management':
+        return <BlogManagement />;
       case 'analytics':
         return <Analytics />;
       case 'users':

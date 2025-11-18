@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
-import { UserRole } from '@/models/User';
+import { UserRole } from '@/lib/constants';
 
 export default function Users() {
   const { user } = useAuth();

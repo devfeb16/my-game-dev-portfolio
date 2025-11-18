@@ -1,12 +1,9 @@
 import mongoose, { Schema } from 'mongoose';
 import bcrypt from 'bcryptjs';
+import { UserRole } from '@/lib/constants';
 
-export const UserRole = {
-  ADMIN: 'admin',
-  MARKETING: 'marketing',
-  BLOGGER: 'blogger',
-  USER: 'user',
-};
+// Re-export for backward compatibility
+export { UserRole };
 
 const UserSchema = new Schema(
   {

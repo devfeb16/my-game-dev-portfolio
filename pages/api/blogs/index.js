@@ -13,15 +13,15 @@ export default requireAuth(async (req, res, user) => {
       const query = {};
 
       // Role-based filtering
-      if (user.role === UserRole.ADMIN) {
-        // Admins can see all blogs, filter by status if provided
+      if (user.role === UserRole.ADMIN || user.role === UserRole.MARKETING) {
+        // Admins and HR can see all blogs, filter by status if provided
         if (status) {
           query.status = status;
         } else if (published !== undefined) {
           query.published = published === 'true';
         }
       } else {
-        // Non-admins can only see published blogs or their own unpublished blogs
+        // Non-admin/HR users can only see published blogs or their own unpublished blogs
         query.$or = [
           { published: true, status: BlogStatus.PUBLISHED },
           { author: user.userId },

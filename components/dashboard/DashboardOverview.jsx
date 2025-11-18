@@ -1,5 +1,5 @@
 import { useAuth } from '@/contexts/AuthContext';
-import { UserRole } from '@/models/User';
+import { UserRole } from '@/lib/constants';
 import { FiFileText, FiEye, FiEdit3, FiUsers } from 'react-icons/fi';
 
 export default function DashboardOverview() {

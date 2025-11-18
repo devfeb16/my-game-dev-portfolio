@@ -7,9 +7,9 @@ import { UserRole } from '@/models/User';
 export default requireAuth(async (req, res, user) => {
   await connectDB();
 
-  // Only admins can access this endpoint
-  if (user.role !== UserRole.ADMIN) {
-    return res.status(403).json({ error: 'Forbidden - Admin access required' });
+  // Only admins and marketing (HR) can access this endpoint
+  if (user.role !== UserRole.ADMIN && user.role !== UserRole.MARKETING) {
+    return res.status(403).json({ error: 'Forbidden - Admin or HR access required' });
   }
 
   const { id } = req.query;

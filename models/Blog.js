@@ -1,12 +1,8 @@
 import mongoose, { Schema } from 'mongoose';
+import { BlogStatus } from '@/lib/constants';
 
-// Blog status enum
-export const BlogStatus = {
-  DRAFT: 'draft',
-  PENDING_REVIEW: 'pending_review',
-  PUBLISHED: 'published',
-  REJECTED: 'rejected',
-};
+// Re-export for backward compatibility
+export { BlogStatus };
 
 const BlogSchema = new Schema(
   {
@@ -16,7 +12,6 @@ const BlogSchema = new Schema(
       required: [true, 'Title is required'],
       trim: true,
       maxlength: [200, 'Title cannot exceed 200 characters'],
-      index: true,
     },
     content: {
       type: String,
@@ -31,7 +26,6 @@ const BlogSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'User',
       required: true,
-      index: true,
     },
     
     // URL & Slug
@@ -41,7 +35,6 @@ const BlogSchema = new Schema(
       unique: true,
       lowercase: true,
       trim: true,
-      index: true,
     },
     canonicalUrl: {
       type: String,
@@ -53,16 +46,13 @@ const BlogSchema = new Schema(
       type: String,
       enum: Object.values(BlogStatus),
       default: BlogStatus.DRAFT,
-      index: true,
     },
     published: {
       type: Boolean,
       default: false,
-      index: true,
     },
     publishedAt: {
       type: Date,
-      index: true,
     },
     lastUpdatedAt: {
       type: Date,
@@ -152,12 +142,10 @@ const BlogSchema = new Schema(
     category: {
       type: String,
       trim: true,
-      index: true,
     },
     tags: {
       type: [String],
       default: [],
-      index: true,
     },
     
     // Content Analysis
@@ -174,7 +162,6 @@ const BlogSchema = new Schema(
     views: {
       type: Number,
       default: 0,
-      index: true,
     },
     likes: {
       type: Number,

@@ -1,4 +1,4 @@
-import { UserRole } from '@/models/User';
+import { UserRole } from '@/lib/constants';
 import { useAuth } from '@/contexts/AuthContext';
 
 export default function Analytics() {
