@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { FiX } from 'react-icons/fi';
+import { FiX, FiEye } from 'react-icons/fi';
 
 export default function CreateBlog() {
   const router = useRouter();
@@ -70,9 +70,20 @@ export default function CreateBlog() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-white mb-2">Create New Blog</h1>
-        <p className="text-gray-400">Write and publish your blog post</p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold text-white mb-2">Create New Blog</h1>
+          <p className="text-gray-400">Write and publish your blog post</p>
+        </div>
+        <a
+          href="/blogs"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-2 px-4 py-2 bg-[#2a2b3e] text-white font-semibold rounded-lg hover:bg-[#3a3b4e] transition border border-[#3a3b3e]"
+        >
+          <FiEye className="w-5 h-5" />
+          View Public Blogs
+        </a>
       </div>
 
       {error && (

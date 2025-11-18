@@ -17,13 +17,6 @@ export default function Sidebar({ activeView, onViewChange }) {
       roles: [UserRole.ADMIN, UserRole.MARKETING, UserRole.BLOGGER, UserRole.USER],
     },
     {
-      id: 'blogs',
-      label: 'Blogs',
-      icon: <FiFileText className="w-5 h-5" />,
-      roles: [UserRole.ADMIN, UserRole.BLOGGER, UserRole.MARKETING],
-      route: '/blogs',
-    },
-    {
       id: 'create-blog',
       label: 'Create Blog',
       icon: <FiEdit3 className="w-5 h-5" />,

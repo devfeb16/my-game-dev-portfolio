@@ -18,13 +18,16 @@ export default function BlogsPage() {
 
   const fetchBlogs = async () => {
     try {
-      // Use public endpoint for non-authenticated users, or authenticated endpoint for logged-in users
-      const endpoint = user ? '/api/blogs' : '/api/blogs/public';
-      const res = await fetch(endpoint);
+      // Always use public endpoint to show only published blogs
+      const res = await fetch('/api/blogs/public');
       const data = await res.json();
 
       if (data.success) {
-        setBlogs(data.blogs);
+        // Filter to only show published blogs
+        const publishedBlogs = data.blogs.filter(blog => 
+          blog.status === 'published' && blog.published === true
+        );
+        setBlogs(publishedBlogs);
       } else {
         setError(data.error || 'Failed to fetch blogs');
         setBlogs([]);
@@ -74,9 +77,7 @@ export default function BlogsPage() {
     });
   };
 
-  if (!user) {
-    return null;
-  }
+  // Remove the check that prevents non-logged-in users from seeing the page
 
   return (
     <>
@@ -329,18 +330,12 @@ export default function BlogsPage() {
                   )}
                   <div className="p-6">
                     <div className="flex items-center justify-between mb-2">
-                      <span
-                        className={`px-2 py-1 text-xs font-semibold rounded ${
-                          blog.published
-                            ? 'bg-green-500/20 text-green-400'
-                            : 'bg-yellow-500/20 text-yellow-400'
-                        }`}
-                      >
-                        {blog.published ? 'Published' : 'Draft'}
+                      <span className="px-2 py-1 text-xs font-semibold rounded bg-green-500/20 text-green-400">
+                        Published
                       </span>
                       <span className="text-xs text-gray-400 flex items-center gap-1">
                         <FiEye className="w-3 h-3" />
-                        {blog.views}
+                        {blog.views || 0}
                       </span>
                     </div>
 
@@ -379,19 +374,20 @@ export default function BlogsPage() {
                     </div>
 
                     <div className="flex gap-2 pt-4 border-t border-[#2a2b3e]">
-                      <button
-                        onClick={() => router.push(`/blogs/${blog.slug}`)}
-                        className="flex-1 px-3 py-2 bg-[#0a0b0f] text-white text-sm rounded-lg hover:bg-[#2a2b3e] transition"
+                      <a
+                        href={`/blogs/${blog.slug}`}
+                        className="flex-1 px-3 py-2 bg-[#0a0b0f] text-white text-sm rounded-lg hover:bg-[#2a2b3e] transition text-center"
                       >
-                        View
-                      </button>
-                      {user && blog.author && (blog.author._id === user.id || user.role === 'admin') && (
+                        Read More
+                      </a>
+                      {user && blog.author && (blog.author._id === user.userId || blog.author === user.userId || user.role === 'admin') && (
                         <>
                           <button
                             onClick={() =>
-                              router.push(`/dashboard/${user.role}?view=edit-blog&id=${blog._id}`)
+                              router.push(`/dashboard/${user.role}?view=blog-management`)
                             }
                             className="px-3 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition"
+                            title="Edit in Dashboard"
                           >
                             <FiEdit2 className="w-4 h-4" />
                           </button>
@@ -399,6 +395,7 @@ export default function BlogsPage() {
                             onClick={() => handleDelete(blog._id)}
                             disabled={deleteLoading === blog._id}
                             className="px-3 py-2 bg-red-600 text-white text-sm rounded-lg hover:bg-red-700 transition disabled:opacity-50"
+                            title="Delete"
                           >
                             <FiTrash2 className="w-4 h-4" />
                           </button>

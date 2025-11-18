@@ -840,16 +840,27 @@ export default function BlogManagement() {
           <h1 className="text-3xl font-bold text-white mb-2">Blog Management</h1>
           <p className="text-gray-400">Create, edit, and manage your blog posts</p>
         </div>
-        <button
-          onClick={() => {
-            resetForm();
-            setShowForm(true);
-          }}
-          className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-blue-700 transition"
-        >
-          <FiPlus className="w-5 h-5" />
-          Create Blog
-        </button>
+        <div className="flex items-center gap-3">
+          <a
+            href="/blogs"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 px-4 py-2 bg-[#2a2b3e] text-white font-semibold rounded-lg hover:bg-[#3a3b4e] transition border border-[#3a3b4e]"
+          >
+            <FiEye className="w-5 h-5" />
+            View Public Blogs
+          </a>
+          <button
+            onClick={() => {
+              resetForm();
+              setShowForm(true);
+            }}
+            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-blue-700 transition"
+          >
+            <FiPlus className="w-5 h-5" />
+            Create Blog
+          </button>
+        </div>
       </div>
 
       {error && (
@@ -932,27 +943,30 @@ export default function BlogManagement() {
                         <p className="text-gray-400 mb-3 line-clamp-2">{blog.excerpt}</p>
                       )}
                       <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500">
-                        <span>
-                          Author: {typeof blog.author === 'object' ? blog.author?.name : 'Unknown'}
+                        <span className="flex items-center gap-1">
+                          <strong className="text-gray-400">Author:</strong> {typeof blog.author === 'object' ? blog.author?.name || blog.author?.email : 'Unknown'}
+                          {typeof blog.author === 'object' && blog.author?.email && (
+                            <span className="text-gray-600">({blog.author.email})</span>
+                          )}
                         </span>
                         <span>•</span>
                         <span>
-                          {new Date(blog.createdAt).toLocaleDateString()}
+                          <strong className="text-gray-400">Created:</strong> {new Date(blog.createdAt).toLocaleDateString()}
                         </span>
                         {blog.publishedAt && (
                           <>
                             <span>•</span>
                             <span>
-                              Published: {new Date(blog.publishedAt).toLocaleDateString()}
+                              <strong className="text-gray-400">Published:</strong> {new Date(blog.publishedAt).toLocaleDateString()}
                             </span>
                           </>
                         )}
                         <span>•</span>
-                        <span>{blog.views || 0} views</span>
+                        <span><strong className="text-gray-400">Views:</strong> {blog.views || 0}</span>
                         {blog.readingTime > 0 && (
                           <>
                             <span>•</span>
-                            <span>{blog.readingTime} min read</span>
+                            <span><strong className="text-gray-400">Reading Time:</strong> {blog.readingTime} min</span>
                           </>
                         )}
                       </div>
@@ -975,6 +989,17 @@ export default function BlogManagement() {
                       )}
                     </div>
                     <div className="flex items-center gap-2 ml-4">
+                      {blog.status === BlogStatus.PUBLISHED && blog.slug && (
+                        <a
+                          href={`/blogs/${blog.slug}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-2 text-purple-400 hover:text-purple-300 hover:bg-purple-500/10 rounded transition"
+                          title="View Blog"
+                        >
+                          <FiEye className="w-5 h-5" />
+                        </a>
+                      )}
                       {canEdit && (
                         <button
                           onClick={() => handleEdit(blog)}
@@ -984,27 +1009,29 @@ export default function BlogManagement() {
                           <FiEdit3 className="w-5 h-5" />
                         </button>
                       )}
-                      {canApprove && blog.status === BlogStatus.PENDING_REVIEW && (
+                      {canApprove && (blog.status === BlogStatus.PENDING_REVIEW || blog.status === BlogStatus.DRAFT) && (
                         <>
                           <button
                             onClick={() => handleApprove(blog._id, 'approve')}
                             className="p-2 text-green-400 hover:text-green-300 hover:bg-green-500/10 rounded transition"
-                            title="Approve"
+                            title={blog.status === BlogStatus.DRAFT ? "Approve & Publish" : "Approve"}
                           >
                             <FiCheck className="w-5 h-5" />
                           </button>
-                          <button
-                            onClick={() => {
-                              const reason = prompt('Rejection reason:');
-                              if (reason) {
-                                handleApprove(blog._id, 'reject', reason);
-                              }
-                            }}
-                            className="p-2 text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded transition"
-                            title="Reject"
-                          >
-                            <FiX className="w-5 h-5" />
-                          </button>
+                          {blog.status === BlogStatus.PENDING_REVIEW && (
+                            <button
+                              onClick={() => {
+                                const reason = prompt('Rejection reason:');
+                                if (reason) {
+                                  handleApprove(blog._id, 'reject', reason);
+                                }
+                              }}
+                              className="p-2 text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded transition"
+                              title="Reject"
+                            >
+                              <FiX className="w-5 h-5" />
+                            </button>
+                          )}
                         </>
                       )}
                       {canDelete && (
