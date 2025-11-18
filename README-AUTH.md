@@ -73,8 +73,38 @@ The system supports the following user roles:
 1. Ensure MongoDB is running locally or update `MONGODB_URI` with your connection string
 2. Create `.env.local` file with the environment variables
 3. Install dependencies: `npm install`
-4. Run the development server: `npm run dev`
-5. Navigate to `/login` to create an account or login
+4. **Initialize the default admin user** (choose one method):
+   - **Option A**: Run the seed script: `npm run seed-admin`
+   - **Option B**: Call the API endpoint: `POST /api/admin/init-admin`
+   - **Option C**: Use the ensure-admin endpoint to create/reset: `POST /api/admin/ensure-admin`
+5. Run the development server: `npm run dev`
+6. Navigate to `/login` to login with admin credentials
+
+## Default Admin Credentials
+
+**Email:** `admin@UnityDevs.com`  
+**Password:** `temp123`
+
+⚠️ **Important:** Change the default password after first login for security.
+
+### Troubleshooting Login Issues
+
+If you're having trouble logging in:
+
+1. **Ensure the admin user exists:**
+   ```bash
+   # Run the seed script
+   npm run seed-admin
+   
+   # Or call the ensure-admin endpoint (resets password if needed)
+   curl -X POST http://localhost:3000/api/admin/ensure-admin
+   ```
+
+2. **Check the database:** Make sure MongoDB is running and the connection string is correct
+
+3. **Verify email case:** The email is stored in lowercase, so `admin@UnityDevs.com` becomes `admin@unitydevs.com` in the database
+
+4. **Check server logs:** Look for error messages in the terminal when attempting to login
 
 ## Database Models
 

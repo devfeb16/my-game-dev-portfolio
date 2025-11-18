@@ -16,10 +16,12 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Email and password are required' });
     }
 
-    // Find user and include password
-    const user = await User.findOne({ email }).select('+password');
+    // Find user and include password (email is stored lowercase in DB)
+    const normalizedEmail = email.toLowerCase().trim();
+    const user = await User.findOne({ email: normalizedEmail }).select('+password');
 
     if (!user) {
+      console.error(`Login failed: User not found for email: ${normalizedEmail}`);
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
@@ -27,6 +29,7 @@ export default async function handler(req, res) {
     const isMatch = await user.comparePassword(password);
 
     if (!isMatch) {
+      console.error(`Login failed: Invalid password for email: ${normalizedEmail}`);
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
