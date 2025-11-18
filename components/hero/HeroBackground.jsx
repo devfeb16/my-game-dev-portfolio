@@ -12,6 +12,33 @@ export default function HeroBackground({
     const video = document.getElementById("hero-bg-video");
     if (!video) return;
 
+    // Optimize video loading
+    const optimizeVideo = () => {
+      // Set video loading priority
+      if ('loading' in video) {
+        video.loading = 'eager';
+      }
+
+      // Ensure video starts loading immediately
+      if (video.readyState === 0) {
+        try {
+          video.load();
+        } catch (e) {
+          console.log("Video load error:", e);
+        }
+      }
+
+      // Try to play video immediately (will be muted)
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(error => {
+          // Auto-play was prevented, but video will play when loader completes
+          console.log("Video autoplay prevented:", error);
+        });
+      }
+    };
+
+    // Ensure MP4 is available as fallback
     const ensureMp4Fallback = () => {
       const hasMp4 = Array.from(video.querySelectorAll("source")).some((s) =>
         s.src && s.src.endsWith("/bgvideo/bg.mp4")
@@ -20,25 +47,45 @@ export default function HeroBackground({
         const mp4 = document.createElement("source");
         mp4.src = "/bgvideo/bg.mp4";
         mp4.type = "video/mp4";
-        video.appendChild(mp4);
+        // Insert MP4 as first source for priority
+        video.insertBefore(mp4, video.firstChild);
+        try { 
+          video.load();
+          optimizeVideo();
+        } catch (e) {
+          console.log("Error loading MP4 fallback:", e);
+        }
       }
-      try { video.load(); } catch {}
     };
 
+    // Check video format support and optimize
     try {
+      const canPlayMp4 = video.canPlayType ? video.canPlayType("video/mp4") : "";
       const canPlayMov = video.canPlayType ? video.canPlayType("video/quicktime") : "";
-      if (canPlayMov === "") {
+      
+      // If MP4 is supported, ensure it's loaded first
+      if (canPlayMp4) {
+        ensureMp4Fallback();
+      } else if (canPlayMov === "") {
+        // Neither format supported, try MP4 as fallback
         ensureMp4Fallback();
       }
-    } catch {}
+    } catch (e) {
+      console.log("Video format check error:", e);
+    }
+
+    // Optimize video loading
+    optimizeVideo();
 
     const onError = () => {
       ensureMp4Fallback();
+      optimizeVideo();
     };
 
     video.addEventListener("error", onError);
 
-    // Hide loader after 4 seconds and notify parent (provides 3-5 second delay range)
+    // Hide loader when video is ready (coordinated with LoaderOverlay)
+    // This loader in HeroBackground is just a backup/visual indicator
     const hideLoader = () => {
       setLoaderVisible(false);
       setTimeout(() => {
@@ -46,10 +93,42 @@ export default function HeroBackground({
       }, 100);
     };
 
-    const timer = setTimeout(hideLoader, 4000); // 4 second loader display
+    // Check if video is ready
+    const checkVideoReady = () => {
+      if (video.readyState >= 3) {
+        // Video has enough data to play
+        hideLoader();
+        return true;
+      }
+      return false;
+    };
+
+    // If already ready, hide immediately
+    if (checkVideoReady()) {
+      return;
+    }
+
+    // Listen for video readiness
+    const onCanPlay = () => {
+      if (video.readyState >= 3) {
+        hideLoader();
+      }
+    };
+
+    const onCanPlayThrough = () => {
+      hideLoader();
+    };
+
+    video.addEventListener("canplay", onCanPlay, { once: true });
+    video.addEventListener("canplaythrough", onCanPlayThrough, { once: true });
+
+    // Safety timeout - hide after 3 seconds max
+    const timer = setTimeout(hideLoader, 3000);
 
     return () => {
       video.removeEventListener("error", onError);
+      video.removeEventListener("canplay", onCanPlay);
+      video.removeEventListener("canplaythrough", onCanPlayThrough);
       clearTimeout(timer);
     };
   }, [onLoaderComplete]);
@@ -66,6 +145,9 @@ export default function HeroBackground({
         playsInline
         loop
       >
+        {/* MP4 first for better compatibility and faster loading */}
+        <source src="/bgvideo/bg.mp4" type="video/mp4" />
+        {/* MOV as fallback for Safari */}
         <source src="/bgvideo/bg.mov" type="video/quicktime" />
       </video>
       <noscript>

@@ -6,7 +6,27 @@ export default function LoaderOverlay() {
   const { setLoaderComplete } = useLoader();
 
   useEffect(() => {
+    let isComplete = false;
+    let cleanupFunctions = [];
+
     const hide = () => {
+      if (isComplete) return;
+      isComplete = true;
+
+      const video = document.getElementById("hero-bg-video");
+      
+      // Ensure video is playing when loader completes
+      if (video) {
+        // Force video to play if it's not already playing
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(error => {
+            // Auto-play was prevented, but that's okay - video will play when user interacts
+            console.log("Video autoplay prevented:", error);
+          });
+        }
+      }
+
       setVisible(false);
       // Notify that loader is complete
       setLoaderComplete(true);
@@ -15,30 +35,102 @@ export default function LoaderOverlay() {
     const video = document.getElementById("hero-bg-video");
 
     if (video) {
-      // If already buffered enough, hide immediately
-      if (video.readyState >= 2) {
-        // Small delay to show pacman animation
-        setTimeout(hide, 2000);
+      // Minimum animation time (1 second - reduced from 2 seconds)
+      const MIN_ANIMATION_TIME = 1000;
+      let minTimeElapsed = false;
+      let videoReady = false;
+
+      const checkAndHide = () => {
+        if (minTimeElapsed && videoReady && !isComplete) {
+          hide();
+        }
+      };
+
+      // Start minimum timer
+      const minTimer = setTimeout(() => {
+        minTimeElapsed = true;
+        checkAndHide();
+      }, MIN_ANIMATION_TIME);
+      cleanupFunctions.push(() => clearTimeout(minTimer));
+
+      // Check if video is already ready
+      const checkVideoReady = () => {
+        // Check if video can play through (readyState 4 = HAVE_ENOUGH_DATA)
+        // Or at least has enough data to start (readyState 3 = HAVE_FUTURE_DATA)
+        if (video.readyState >= 3) {
+          videoReady = true;
+          checkAndHide();
+          return true;
+        }
+        return false;
+      };
+
+      // If already buffered enough, mark as ready
+      if (checkVideoReady()) {
+        // Video is ready, just wait for minimum time
       } else {
-        const onReady = () => {
-          // Small delay to show pacman animation even if video loads fast
-          setTimeout(hide, 2000);
+        // Wait for video to be ready
+        const onCanPlay = () => {
+          videoReady = true;
+          checkAndHide();
         };
-        video.addEventListener("canplay", onReady, { once: true });
-        video.addEventListener("loadeddata", onReady, { once: true });
-        video.addEventListener("canplaythrough", onReady, { once: true });
+
+        const onCanPlayThrough = () => {
+          videoReady = true;
+          checkAndHide();
+        };
+
+        const onLoadedData = () => {
+          // Video has loaded some data, check if it's enough
+          if (video.readyState >= 3) {
+            videoReady = true;
+            checkAndHide();
+          }
+        };
+
+        // Listen for video readiness events
+        video.addEventListener("canplay", onCanPlay, { once: true });
+        video.addEventListener("canplaythrough", onCanPlayThrough, { once: true });
+        video.addEventListener("loadeddata", onLoadedData, { once: true });
+        video.addEventListener("progress", () => {
+          // Check periodically as video loads
+          if (video.buffered.length > 0 && video.buffered.end(0) > 2) {
+            // At least 2 seconds buffered
+            videoReady = true;
+            checkAndHide();
+          }
+        });
+
+        cleanupFunctions.push(() => {
+          video.removeEventListener("canplay", onCanPlay);
+          video.removeEventListener("canplaythrough", onCanPlayThrough);
+          video.removeEventListener("loadeddata", onLoadedData);
+        });
+
+        // Force video to start loading
         try {
-          video.load();
-        } catch {}
+          if (video.readyState === 0) {
+            video.load();
+          }
+        } catch (e) {
+          console.log("Video load error:", e);
+        }
       }
     } else {
-      // Fallback(hide, 2000);
+      // Video element not found, wait minimum time then hide
+      setTimeout(hide, 1000);
     }
 
-    // Safety timeout in case video readiness takes too long (max 4 seconds)
-    const safety = window.setTimeout(hide, 4000);
+    // Safety timeout - maximum 3 seconds (reduced from 4)
+    const safety = setTimeout(() => {
+      if (!isComplete) {
+        hide();
+      }
+    }, 3000);
+    cleanupFunctions.push(() => clearTimeout(safety));
+
     return () => {
-      window.clearTimeout(safety);
+      cleanupFunctions.forEach(cleanup => cleanup());
     };
   }, [setLoaderComplete]);
 

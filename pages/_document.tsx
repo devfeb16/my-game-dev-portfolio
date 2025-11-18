@@ -4,6 +4,14 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head>
+        {/* Preload MP4 first for better compatibility and faster loading */}
+        <link
+          rel="preload"
+          as="video"
+          href="/bgvideo/bg.mp4"
+          type="video/mp4"
+        />
+        {/* Preload MOV as fallback for Safari */}
         <link
           rel="preload"
           as="video"
