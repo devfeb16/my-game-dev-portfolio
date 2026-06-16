@@ -1,5 +1,6 @@
 import GameButton from "./GameButton";
-import { SiFiverr, SiUpwork, SiLinkedin } from "react-icons/si";
+import { SiFiverr, SiUpwork, SiLinkedin, SiWhatsapp } from "react-icons/si";
+import { GiAchievement } from "react-icons/gi";
 
 export const DEFAULT_HEADLINE = "Your Next Mobile Game Hit. Built in Unity.";
 export const DEFAULT_SUBTITLE = "I build games that are hard to put down.";
@@ -68,7 +69,7 @@ export default function HeroIntro({
           aria-label="Fiverr profile"
           className="transform transition duration-200 hover:-translate-y-0.5 hover:text-[#1dbf73]"
         >
-          <SiFiverr className="h-7 w-7" />
+          <SiFiverr className="h-9 w-9" />
           <span className="sr-only">Fiverr profile</span>
         </a>
         <a
@@ -90,6 +91,26 @@ export default function HeroIntro({
         >
           <SiLinkedin className="h-7 w-7" />
           <span className="sr-only">LinkedIn profile</span>
+        </a>
+        <a
+          href="https://wa.me/923099670475"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="WhatsApp"
+          className="transform transition duration-200 hover:-translate-y-0.5 hover:text-[#25D366]"
+        >
+          <SiWhatsapp className="h-7 w-7" />
+          <span className="sr-only">WhatsApp</span>
+        </a>
+        <a
+          href="https://designndev.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Design & Dev website"
+          className="transform transition duration-200 hover:-translate-y-0.5 hover:text-[#6366f1]"
+        >
+          <GiAchievement className="h-7 w-7" />
+          <span className="sr-only">Design & Dev</span>
         </a>
       </div>
     </div>

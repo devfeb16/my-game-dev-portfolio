@@ -10,9 +10,10 @@ export default function ContactPage() {
       </div>
       <div className="mt-8 text-sm text-zinc-400">
         <div className="flex gap-4">
-          <a className="hover:text-neon-cyan" href="#">LinkedIn</a>
-          <a className="hover:text-neon-cyan" href="#">GitHub</a>
-          <a className="hover:text-neon-cyan" href="#">Unity Profile</a>
+          <a className="hover:text-neon-cyan" href="https://www.linkedin.com/in/muhammad-adeel-3836b8274" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a className="hover:text-neon-cyan" href="https://github.com/adeelfeb" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a className="hover:text-neon-cyan" href="https://wa.me/923099670475" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+          <a className="hover:text-neon-cyan" href="https://designndev.com/" target="_blank" rel="noopener noreferrer">Design & Dev</a>
         </div>
       </div>
     </div>
